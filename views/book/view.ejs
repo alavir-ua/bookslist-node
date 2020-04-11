@@ -1,0 +1,86 @@
+<%- include ('../layouts/header.ejs') %>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="left-sidebar">
+          <h2>Жанры</h2>
+          <div class="panel-group category-products">
+            <% genresList.forEach(function(genre) { %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a href="/catalog/genre/<%= genre.id %>">
+                      <%= genre.name %>
+                    </a>
+                  </h4>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+          <h2>Авторы</h2>
+          <div class="panel-group category-products">
+            <% authorsList.forEach(function(author) { %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a href="/catalog/author/<%= author.id %>">
+                      <%= author.name %>
+                    </a>
+                  </h4>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-9 padding-right">
+        <div class="product-details"><!--product-details-->
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="view-product">
+                <% if(book.is_new == 1) { %>
+                  <img src="/images/book-details/new.jpg" class="newarrival" alt=""/>
+                <% } %>
+                <% if(is_photo == true) { %>
+                  <a class="productinfo text-center" href="/<%= book.id %>/<%= book.name %>/download">
+                    <img src="/images/books/<%= book.id %>.jpg" alt=""/>
+                  </a>
+                <% } else { %>
+                  <img src="/images/books/no-image.jpg" alt=""/>
+                <% } %>
+              </div>
+            </div>
+            <div class="col-sm-8">
+              <div class="product-information"><!--/product-information-->
+                <% if(book.is_new == 1) { %>
+                  <img src="/images/book-details/new.jpg" class="newarrival" alt=""/>
+                <% } %>
+                <h2><%= book.name %></h2>
+                <span>
+                  <span><%= book.price %> грн</span>
+                <a id="addToCart" data-id="<%= book.id %>" class="btn btn-default checkout" href="#"><i class="fa
+                fa-shopping-cart"></i>&nbsp;&nbsp;В корзину</a>
+                </span>
+                <h4>Автор: <%= book.authors %></h4>
+                <h4>Жанр: <%= book.genres %></h4>
+                <h4>Код: <%= book.code %></h4>
+              </div><!--/product-information-->
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <br/>
+              <h3>Описание книги</h3>
+              <p class="desc"><%= book.description %></p>
+            </div>
+          </div>
+        </div><!--/product-details-->
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include ('../layouts/footer.ejs') %>

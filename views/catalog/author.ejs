@@ -1,0 +1,110 @@
+<%- include ('../layouts/header.ejs') %>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="left-sidebar">
+          <h2>Жанры</h2>
+          <div class="panel-group category-products">
+            <% genresList.forEach(function(genre) { %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a href="/catalog/genre/<%= genre.id %>">
+                      <%= genre.name %>
+                    </a>
+                  </h4>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+          <h2>Авторы</h2>
+          <div class="panel-group category-products">
+            <% authorsList.forEach(function(author) { %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <% if(authorId == author.id) { %>
+                      <a href="/catalog/author/<%= author.id %>" class="active">
+                        <%= author.name %>
+                      </a>
+                    <% } else { %>
+                      <a href="/catalog/author/<%= author.id %>">
+                        <%= author.name %>
+                      </a>
+                    <% } %>
+                  </h4>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-9 padding-right">
+        <div class="features_items"><!--features_items-->
+          <h2 class="title text-center">Каталог по автору</h2>
+          <% if(Object.keys(booksLimit).length != 0) { %>
+            <% booksLimit.forEach(function(book) { %>
+              <div class="col-sm-4">
+                <div class="product-image-wrapper">
+                  <div class="single-products">
+                    <div class="productinfo text-center">
+                      <img src="/images/books/<%= book.id %>.jpg" alt=""/>
+                      <h2><%= book.price %> грн</h2><!--Цена книги-->
+                      <a href="/view/<%= book.id %>"><span>
+																<%= book.name %></span><!--Название книги-->
+                      </a>
+                      <h2><span><%= book.authors %></span></h2><br>
+                      <a id="addToCart" data-id="<%= book.id %>" class="btn btn-default checkout" href="#"><i class="fa
+                       fa-shopping-cart"></i>&nbsp;&nbsp;В корзину</a><!--Автора книги-->
+                    </div>
+                    <% if(book.is_new == 1) { %>
+                      <img src="/images/home/new.png" class="new" alt=""/>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <div class="col-sm-4">
+              <h4>Книг данного автора еще нет</h4>
+            </div>
+          <% } %>
+        </div><!--features_items-->
+
+        <!-- Постраничная навигация -->
+        <% if (pageCount > 1) { %>
+          <ul class="pagination">
+            <% if (currentPage > 1) { %>
+              <li><a href="/catalog/author/<%= authorId %>/?page=1">&laquo;</a></li>
+            <% } %>
+            <% var i = 1;
+              if (currentPage > 5) {
+                i = +currentPage - 4;
+              } %>
+            <% if (i !== 1) { %>
+              <li class="disabled"><a href="#">...</a></li>
+            <% } %>
+            <% for (i; i <= pageCount; i++) { %>
+              <% if (currentPage == i) { %>
+                <li class="active"><span><%= i %> </span></li>
+              <% } else { %>
+                <li><a href="/catalog/author/<%= authorId %>/?page=<%= i %>"><%= i %></a></li>
+              <% } %>
+              <% if (i == (+currentPage + 4)) { %>
+                <li class="disabled"><a href="#">...</a></li>
+              <% break; } %>
+            <% } %>
+            <% if (currentPage != pageCount) { %>
+              <li><a href="/catalog/author/<%= authorId %>/?page=<%= pageCount %>">&raquo;</a></li>
+            <% } %>
+          </ul>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include ('../layouts/footer.ejs') %>

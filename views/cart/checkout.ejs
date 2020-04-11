@@ -1,0 +1,130 @@
+<%- include ('../layouts/header.ejs') %>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="left-sidebar">
+          <h2>Жанры</h2>
+          <div class="panel-group category-products">
+            <% genresList.forEach(function(genre) { %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a href="/catalog/genre/<%= genre.id %>">
+                      <%= genre.name %>
+                    </a>
+                  </h4>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+          <h2>Авторы</h2>
+          <div class="panel-group category-products">
+            <% authorsList.forEach(function(author) { %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a href="/catalog/author/<%= author.id %>">
+                      <%= author.name %>
+                    </a>
+                  </h4>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-9 padding-right">
+        <div class="features_items">
+          <h2 class="title text-center">ОФОРМЛЕНИЕ ЗАКАЗА</h2>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="login-form">
+                <form action="/cart/charge" method="post">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <div class="card">
+                        <header class="card-header">
+                          <h4 class="card-title mt-2">Платежные реквизиты</h4>
+                        </header>
+                        <article class="card-body">
+                          <div class="form-row">
+                            <div class="col form-group">
+                              <label for="first_name">Фамилия</label>
+                              <input id="first_name" type="text" class="form-control" name="first_name">
+                            </div>
+                            <div class="col form-group">
+                              <label for="last_name">Имя</label>
+                              <input id="last_name" type="text" class="form-control" name="last_name">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="adress">Адрес</label>
+                            <input id="adress" type="text" class="form-control" name="address">
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="city">Город</label>
+                              <input id="city" type="text" class="form-control" name="city">
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="country">Страна</label>
+                              <input id="country" type="text" class="form-control" name="country">
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div class="form-group  col-md-6">
+                              <label for="post_code">Почтовый код</label>
+                              <input id="post_code" type="text" class="form-control" name="post_code">
+                            </div>
+                            <div class="form-group  col-md-6">
+                              <label for="phone_number">Номер телефона</label>
+                              <input id="phone_number" type="text" class="form-control" name="phone_number">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="email">Email</label>
+                            <input id="email" type="email" class="form-control" name="email"
+                                   value=""
+                                   disabled>
+                            <small class="form-text text-muted">Мы никогда не передадим вашу электронную почту кому-либо
+                              еще
+                            </small>
+                          </div>
+                          <div class="form-group">
+                            <label for="textarea">Примечания к заказу</label>
+                            <textarea id="textarea" class="form-control" name="notes" rows="3"></textarea>
+                          </div>
+
+                        </article>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="card">
+                            <h4 class="card-title mt-2">Ваш заказ</h4>
+                            <div class="card-body">
+                              <p><b>Общая стоимость: <%= session.cart.totalPrice %> грн</b></p>
+                              <button type="submit" class="subscribe btn btn-success btn-lg btn-block">Разместить заказ
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include ('../layouts/footer.ejs') %>

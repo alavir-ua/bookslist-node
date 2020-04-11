@@ -1,0 +1,110 @@
+<%- include ('../layouts/header.ejs') %>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="left-sidebar">
+          <h2>Жанры</h2>
+          <div class="panel-group category-products">
+            <% genresList.forEach(function(genre) { %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a href="/catalog/genre/<%= genre.id %>">
+                      <%= genre.name %>
+                    </a>
+                  </h4>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+          <h2>Авторы</h2>
+          <div class="panel-group category-products">
+            <% authorsList.forEach(function(author) { %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a href="/catalog/author/<%= author.id %>">
+                      <%= author.name %>
+                    </a>
+                  </h4>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-sm-9 padding-right">
+        <div class="features_items"><!--features_items-->
+          <h2 class="title text-center">Последние книги</h2>
+
+          <% latestBooks.forEach(function(book) { %>
+            <div class="col-sm-4">
+              <div class="product-image-wrapper">
+                <div class="single-products">
+                  <div class="productinfo text-center">
+                    <img src="/images/books/<%= book.id %>.jpg" alt=""/>
+                    <h2><%= book.price %> грн</h2><!--Цена книги-->
+                    <a href="/view/<%= book.id %>"><span>
+																<%= book.name %></span><!--Название книги-->
+                    </a>
+                    <h2><span><%= book.authors %></span></h2><br>
+                    <a id="addToCart" data-id="<%= book.id %>" class="btn btn-default checkout" href="#"><i class="fa
+                fa-shopping-cart"></i>&nbsp;&nbsp;В корзину</a><!--Автора книги-->
+                  </div>
+                  <% if(book.is_new == 1) { %>
+                    <img src="/images/home/new.png" class="new" alt=""/>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div><!--features_items-->
+
+        <div class="recommended_items"><!--recommended_items-->
+          <h2 class="title text-center">Рекомендуемые гниги</h2>
+
+          <div class="cycle-slideshow"
+               data-cycle-fx=carousel
+               data-cycle-timeout=5000
+               data-cycle-carousel-visible=3
+               data-cycle-carousel-fluid=true
+               data-cycle-slides="div.item"
+               data-cycle-prev="#prev"
+               data-cycle-next="#next"
+          >
+            <% recommendedBooks.forEach(function(book) { %>
+              <div class="item">
+                <div class="product-image-wrapper">
+                  <div class="single-products">
+                    <a class="productinfo text-center" href="/view/<%= book.id %>">
+                      <img src="/images/books/<%= book.id %>.jpg" alt=""/>
+                    </a>
+                    <% if(book.is_new == 1) { %>
+                      <img src="/images/home/new.png" class="new" alt=""/>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+
+          <a class="left recommended-item-control" id="prev" href="#recommended-item-carousel" data-slide="prev">
+            <i class="fa fa-angle-left"></i>
+          </a>
+          <a class="right recommended-item-control" id="next" href="#recommended-item-carousel" data-slide="next">
+            <i class="fa fa-angle-right"></i>
+          </a>
+
+        </div>
+      </div><!--/recommended_items-->
+
+    </div>
+  </div>
+
+</section>
+
+<%- include ('../layouts/footer.ejs') %>

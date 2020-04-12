@@ -46,3 +46,28 @@ exports.book_index = (req, res) => {
     });
   });
 }
+
+exports.book_create = (req, res) => {
+  let title = 'Добавить книгу';
+  if (Object.keys(req.body).length === 0) {
+    Author.getAuthorsList((err, authorsList) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving authors list"
+        });
+
+      Genre.getGenresList((err, genresList) => {
+        if (err)
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while retrieving genres list"
+          });
+
+        return res.render('admin/admin_book/create', {title, authorsList, genresList});
+      });
+    });
+  }
+
+
+}

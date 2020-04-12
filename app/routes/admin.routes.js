@@ -12,7 +12,7 @@ module.exports = app => {
 
   // Управление книгами:
   app.get("/admin/books", admin.book_index);
-  // app.get("/admin/book/create", admin.book_create);
+  app.get("/admin/book/create", admin.book_create);
   // app.get("/admin/book/update/:bookId", admin.book_update);
   // app.get("/admin/book/delete/:bookId", admin.book_delete);
   //

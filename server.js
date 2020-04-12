@@ -3,9 +3,30 @@ const bodyParser = require("body-parser");
 const multer = require('multer');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const mongoose = require('mongoose');
+const dbConfig = require('./app/config/db.config');
+const config = dbConfig.mongo;
 const path = require('path');
 const PORT = process.env.PORT || 3000;
 const app = express();
+
+mongoose.connect(`mongodb+srv://${config.USER}:${config.PASSWORD}@cluster0-ojveh.mongodb.net/test?retryWrites=true&w=majority`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+mongoose.Promise = global.Promise;
+const db = mongoose.connection;
+
+// use cookieParser
+app.use(cookieParser());
+
+app.use(session({
+  secret: '3fg45ytg56Fg54fd',
+  resave: false,
+  saveUninitialized: true,
+  store: new MongoStore({ mongooseConnection: db })
+}));
 
 // upload storage configuration
 const storageConfig = multer.diskStorage({
@@ -24,15 +45,6 @@ app.set('view engine', 'ejs');
 // set public folder
 app.use(express.static(path.join(__dirname + '/public')));
 app.use(express.static(path.join(__dirname + '/upload')));
-
-// use cookieParser
-app.use(cookieParser());
-
-app.use(session({
-  secret: '34ERF56bvf7Tghj34',
-  cookie: { maxAge: 3600000},
-  resave: false,
-  saveUninitialized: false}));
 
 // parse requests of content-type: application/json
 app.use(bodyParser.json());

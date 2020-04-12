@@ -9,9 +9,11 @@
         <div class="signup-form"><!--sign up form-->
           <h2>Вход в аккаунт</h2>
           <% if(typeof error !== 'undefined') { %>
-            <p style="color: red;"><b>* <%= error %></b></p>
+            <div id="error-group" class="alert-danger login-form-error">
+              <ul id="errors"><li>* <%= error %></li></ul>
+            </div><br>
           <% } %>
-          <form action="/user/login" method="post">
+          <form id="loginForm" action="/user/login" method="post">
             <p>Email</p>
             <input type="email" name="email" placeholder="" value="" required>
             <p>Пароль</p>

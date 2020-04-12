@@ -46,4 +46,16 @@ $(document).ready(function () {
     }
   });
 
+  $(document).on('click', '.password-control', function (e) {
+    e.preventDefault();
+    if ($('#password').attr('type') == 'password'){
+      $(this).html('Скрыть пароль');
+      $('#password').attr('type', 'text');
+    } else {
+      $(this).html('Показать пароль');
+      $('#password').attr('type', 'password');
+    }
+    return false;
+  });
+
 });

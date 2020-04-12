@@ -1,6 +1,6 @@
 const user = require("../controllers/user.controller");
 const authUser = require('../middlewares/user-auth');
-const {userValidationRules, validate} = require('../middlewares/regValidator')
+const {userValidationRules, validate} = require('../middlewares/validator')
 
 module.exports = app => {
 

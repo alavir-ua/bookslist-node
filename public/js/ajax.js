@@ -73,7 +73,7 @@ $(function () {
         name: $('#name').val(),
         email: $('#email').val(),
         password: $('#password').val(),
-        // confirmPassword: $('#confirmPassword').val()
+        confirmPassword: $('#confirmPassword').val()
       },
       success: function () {
         console.log('Register successful');

@@ -1,8 +1,7 @@
 const Author = require("../models/author.model");
 const Genre = require("../models/genre.model");
-const Book = require("../models/book.model");
+const {Book, addImageUri} = require("../models/book.model");
 const nodemailer = require("nodemailer");
-const fs = require('fs');
 const config = require("../config/smtp.config");
 
 
@@ -36,6 +35,8 @@ exports.index = (req, res) => {
                 err.message || "Some error occurred while retrieving recommended books"
             });
           let title = 'Главная';
+          latestBooks = addImageUri(latestBooks);
+          recommendedBooks = addImageUri(recommendedBooks);
           res.render('site/index', {title, genresList, authorsList, latestBooks, recommendedBooks});
         });
       });
@@ -119,12 +120,9 @@ exports.view = (req, res) => {
             });
           }
         }
-        let is_photo = false;
-        if (fs.existsSync(`upload/images/books/${book.id}.jpg`)) {
-          is_photo = true;
-        }
         let title = 'Обзор книги';
-        res.render('book/view', {book, authorsList, genresList, is_photo, title});
+        book = addImageUri([book]);
+        res.render('book/view', {book, authorsList, genresList, title});
       });
     });
   });

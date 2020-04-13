@@ -46,7 +46,7 @@
               <div class="product-image-wrapper">
                 <div class="single-products">
                   <div class="productinfo text-center">
-                    <img src="/images/books/<%= book.id %>.jpg" alt=""/>
+                    <img src="<%= book.image %>" alt=""/>
                     <h2><%= book.price %> грн</h2><!--Цена книги-->
                     <a href="/view/<%= book.id %>"><span>
 																<%= book.name %></span><!--Название книги-->
@@ -77,18 +77,20 @@
                data-cycle-next="#next"
           >
             <% recommendedBooks.forEach(function(book) { %>
-              <div class="item">
-                <div class="product-image-wrapper">
-                  <div class="single-products">
-                    <a class="productinfo text-center" href="/view/<%= book.id %>">
-                      <img src="/images/books/<%= book.id %>.jpg" alt=""/>
-                    </a>
-                    <% if(book.is_new == 1) { %>
-                      <img src="/images/home/new.png" class="new" alt=""/>
-                    <% } %>
+              <% if(book.image !== '/images/books/no-image.jpg') { %>
+                <div class="item">
+                  <div class="product-image-wrapper">
+                    <div class="single-products">
+                      <a class="productinfo text-center" href="/view/<%= book.id %>">
+                        <img src="/images/books/<%= book.id %>.jpg" alt=""/>
+                      </a>
+                      <% if(book.is_new == 1) { %>
+                        <img src="/images/home/new.png" class="new" alt=""/>
+                      <% } %>
+                    </div>
                   </div>
                 </div>
-              </div>
+              <% } %>
             <% }); %>
           </div>
 

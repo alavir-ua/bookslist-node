@@ -1,30 +1,53 @@
 const sql = require("../helpers/db.js");
+const fs = require('fs');
 
 // Конструктор
 const Book = function (book) {
-  this.code = book.b_code;
-  this.name = book.b_name;
-  this.price = book.b_price;
-  this.description = book.b_description;
-  this.is_new = book.b_is_new;
-  this.is_recommended = book.b_is_recommended;
-  this.status = book.b_status;
+  this.b_code = book.code;
+  this.b_name = book.name;
+  this.b_price = book.price;
+  this.b_description = book.description;
+  this.b_is_new = book.is_new;
+  this.b_is_recommended = book.is_recommended;
+  this.b_status = book.status;
 };
 
 //Добавляет новую книгу
-/*Book.createBook = (newBook, result) => {
+Book.createBook = (newBook, options, result) => {
   sql.query("INSERT INTO books SET ?", newBook, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-
     console.log("created book: ", {id: res.insertId, ...newBook});
     result(null, {id: res.insertId, ...newBook});
-    return res.insertId;
+    let bookId = res.insertId;
+
+    options.genres.forEach(function (genre_id) {
+      sql.query(`INSERT INTO m2m_books_genres (g_id, b_id ) VALUE (${genre_id}, ${bookId})`, (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+        result(null, {id: res.insertId});
+      });
+    })
+
+    options.authors.forEach(function (author_id) {
+      sql.query(`INSERT INTO m2m_books_authors (a_id, b_id ) VALUE (${author_id}, ${bookId})`, (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+        result(null, {id: res.insertId});
+      });
+    })
   });
-};*/
+
+};
 
 //Удаляет книгу
 /*Book.deleteBookById = (bookId, result) => {
@@ -454,4 +477,23 @@ Book.getBooksByAuthorId = (authorId, result) => {
 
 }
 
-module.exports = Book;
+function addImageUri(booksArray) {
+
+  function getImageUri(bookId){
+    let noImage = 'no-image.jpg';
+    let path = '/images/books/';
+    let pathToBookImage = path + bookId + '.jpg';
+    let result = fs.existsSync('upload' + pathToBookImage);
+    if (result) {
+      return pathToBookImage;
+    } else {
+      return path + noImage;
+    }
+  }
+  booksArray.forEach(function (book) {
+    book.image = getImageUri(book.id)
+  })
+  return booksArray;
+}
+
+module.exports = {Book, addImageUri};

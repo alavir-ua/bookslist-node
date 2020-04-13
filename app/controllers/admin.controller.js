@@ -1,6 +1,6 @@
 const Author = require("../models/author.model");
 const Genre = require("../models/genre.model");
-const Book = require("../models/book.model");
+const {Book} = require("../models/book.model");
 const config = require("../config/site.config");
 
 exports.index = (req, res) => {
@@ -64,10 +64,50 @@ exports.book_create = (req, res) => {
               err.message || "Some error occurred while retrieving genres list"
           });
 
-        return res.render('admin/admin_book/create', {title, authorsList, genresList});
+        res.render('admin/admin_book/create', {title, authorsList, genresList});
       });
     });
-  }
+  } else {
 
+    const options = {
+      genres: req.body.genre_id,
+      authors: req.body.author_id
+    }
+
+    delete req.body.genre_id;
+    delete req.body.author_id;
+
+    const book = new Book({
+      name: req.body.name,
+      code: req.body.code,
+      price: req.body.price,
+      description: req.body.description,
+      is_new: req.body.is_new,
+      is_recommended: req.body.is_recommended,
+      status: req.body.status
+    });
+
+    Book.createBook(book, options,(err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Book"
+        });
+
+      console.log(data);
+      /*let id = data.id;
+      let file = req.file;
+      let old_filename = file.filename;
+
+      if (!file) {
+        console.log("Error loading file");
+      } else {
+        fs.renameSync(`public/photos/${old_filename}`, `public/photos/${id}.jpg`);
+        console.log("File uploaded successfully");
+        res.redirect('/admin');
+      }*/
+      res.end();
+    });
+  }
 
 }

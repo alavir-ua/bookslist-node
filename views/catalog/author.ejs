@@ -45,7 +45,7 @@
       <div class="col-sm-9 padding-right">
         <div class="features_items"><!--features_items-->
           <h2 class="title text-center">Каталог по автору</h2>
-          <% if(Object.keys(booksLimit).length != 0) { %>
+          <% if(booksLimit.length !== 0) { %>
             <% booksLimit.forEach(function(book) { %>
               <div class="col-sm-4">
                 <div class="product-image-wrapper">

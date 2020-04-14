@@ -163,6 +163,10 @@ exports.author = (req, res) => {
                   err.message || "Some error occurred while retrieving books for page"
               });
             let title = 'Каталог по автору';
+
+            if(Object.keys(booksLimit).length === 0){
+              booksLimit = [];
+            }
             booksLimit = addImageUri(booksLimit);
             res.render('catalog/author', {
               title,

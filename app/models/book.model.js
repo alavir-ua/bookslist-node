@@ -479,21 +479,26 @@ Book.getBooksByAuthorId = (authorId, result) => {
 
 function addImageUri(booksArray) {
 
-  function getImageUri(bookId){
-    let noImage = 'no-image.jpg';
-    let path = '/images/books/';
-    let pathToBookImage = path + bookId + '.jpg';
-    let result = fs.existsSync('upload' + pathToBookImage);
-    if (result) {
-      return pathToBookImage;
-    } else {
-      return path + noImage;
+  if (booksArray.length !== 0) {
+    function getImageUri(bookId) {
+      let noImage = 'no-image.jpg';
+      let path = '/images/books/';
+      let pathToBookImage = path + bookId + '.jpg';
+      let result = fs.existsSync('upload' + pathToBookImage);
+      if (result) {
+        return pathToBookImage;
+      } else {
+        return path + noImage;
+      }
     }
+
+    booksArray.forEach(function (book) {
+      book.image = getImageUri(book.id)
+    })
+    return booksArray;
+  } else {
+    return booksArray;
   }
-  booksArray.forEach(function (book) {
-    book.image = getImageUri(book.id)
-  })
-  return booksArray;
 }
 
 module.exports = {Book, addImageUri};

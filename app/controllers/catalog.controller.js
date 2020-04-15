@@ -1,6 +1,6 @@
 const Author = require("../models/author.model");
 const Genre = require("../models/genre.model");
-const {Book, addImageUri} = require("../models/book.model");
+const Book = require("../models/book.model");
 const config = require("../config/site.config");
 
 exports.index = (req, res) => {
@@ -39,7 +39,6 @@ exports.index = (req, res) => {
               message:
                 err.message || "Some error occurred while retrieving books for page"
             });
-          booksLimit = addImageUri(booksLimit);
           let title = 'Каталог';
           res.render('catalog/index', {
             title,
@@ -97,7 +96,6 @@ exports.genre = (req, res) => {
                 err.message || "Some error occurred while retrieving books for page"
             });
           let title = 'Каталог по жанру';
-          booksLimit = addImageUri(booksLimit);
           res.render('catalog/genre', {
             title,
             genresList,
@@ -167,7 +165,6 @@ exports.author = (req, res) => {
             if(Object.keys(booksLimit).length === 0){
               booksLimit = [];
             }
-            booksLimit = addImageUri(booksLimit);
             res.render('catalog/author', {
               title,
               genresList,

@@ -31,7 +31,7 @@ app.use(session({
 // upload storage configuration
 const storageConfig = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, __dirname + '/public/photos');
+    cb(null, __dirname + '/upload/images/books');
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);

@@ -1,7 +1,8 @@
 const Author = require("../models/author.model");
 const Genre = require("../models/genre.model");
-const {Book} = require("../models/book.model");
+const Book = require("../models/book.model");
 const config = require("../config/site.config");
+const fs = require('fs');
 
 exports.index = (req, res) => {
   let title = 'Админпанель';
@@ -49,6 +50,7 @@ exports.book_index = (req, res) => {
 
 exports.book_create = (req, res) => {
   let title = 'Добавить книгу';
+  console.log(Object.keys(req.body).length)
   if (Object.keys(req.body).length === 0) {
     Author.getAuthorsList((err, authorsList) => {
       if (err)
@@ -68,17 +70,28 @@ exports.book_create = (req, res) => {
       });
     });
   } else {
-
     const options = {
       genres: req.body.genre_id,
       authors: req.body.author_id
     }
-
     delete req.body.genre_id;
-    delete req.body.author_id;
 
+    delete req.body.author_id;
+    let image = '';
+
+    let file = req.file;
+    if (!file) {
+
+      image = null;
+      console.log("Error loading file");
+    } else {
+      let old_filename = file.filename;
+      image = `/images/books/${old_filename}`
+      console.log("File uploaded successfully");
+    }
     const book = new Book({
       name: req.body.name,
+      image: image,
       code: req.body.code,
       price: req.body.price,
       description: req.body.description,
@@ -87,27 +100,14 @@ exports.book_create = (req, res) => {
       status: req.body.status
     });
 
-    Book.createBook(book, options,(err, data) => {
+    Book.createBook(book, options, (err, data) => {
       if (err)
         res.status(500).send({
           message:
             err.message || "Some error occurred while creating the Book"
         });
-
-      console.log(data);
-      /*let id = data.id;
-      let file = req.file;
-      let old_filename = file.filename;
-
-      if (!file) {
-        console.log("Error loading file");
-      } else {
-        fs.renameSync(`public/photos/${old_filename}`, `public/photos/${id}.jpg`);
-        console.log("File uploaded successfully");
-        res.redirect('/admin');
-      }*/
-      res.end();
     });
-  }
 
+    res.redirect('/admin/books');
+  }
 }

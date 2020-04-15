@@ -5,6 +5,7 @@ const fs = require('fs');
 const Book = function (book) {
   this.b_code = book.code;
   this.b_name = book.name;
+  this.b_image = book.image;
   this.b_price = book.price;
   this.b_description = book.description;
   this.b_is_new = book.is_new;
@@ -46,7 +47,6 @@ Book.createBook = (newBook, options, result) => {
       });
     })
   });
-
 };
 
 //Удаляет книгу
@@ -98,6 +98,7 @@ Book.getBookById = (bookId, result) => {
   sql.query(`SELECT b_id             AS id,
                     b_code           AS code,
                     b_name           AS name,
+                    b_image          AS image,
                     b_price          AS price,
                     b_description    AS description,
                     b_is_new         AS is_new,
@@ -189,6 +190,7 @@ Book.getBooksLimit = (currentPage, pageSize, result) => {
   sql.query(`SELECT
                b_id  AS id,
                b_name  AS name,
+               b_image  AS image,
                b_price  AS price,
                b_is_new  AS is_new,
                GROUP_CONCAT(DISTINCT a_name ORDER BY a_name)
@@ -270,6 +272,7 @@ Book.getBooksLimitByGenre = (genreId, currentPage, pageSize, result) => {
   sql.query(`SELECT
                b_id  AS id,
                b_name  AS name,
+               b_image  AS image,
                b_price  AS price,
                b_is_new  AS is_new,
                GROUP_CONCAT(DISTINCT a_name ORDER BY a_name)
@@ -344,6 +347,7 @@ Book.getBooksLimitByAuthor = (authorId, idsObject, currentPage, pageSize, result
     sql.query(`SELECT
 			b_id  AS id,
 			b_name  AS name,
+			b_image  AS image,
 			b_price  AS price,
 			b_is_new  AS is_new,
 			GROUP_CONCAT(DISTINCT a_name ORDER BY a_name)
@@ -371,6 +375,7 @@ Book.getBooksLimitByAuthor = (authorId, idsObject, currentPage, pageSize, result
 Book.getLatestBooks = result => {
   sql.query(`SELECT b_id     AS id,
                     b_name   AS name,
+                    b_image  AS image,
                     b_price  AS price,
                     b_is_new AS is_new,
                     GROUP_CONCAT(DISTINCT a_name ORDER BY a_name)
@@ -394,7 +399,9 @@ Book.getLatestBooks = result => {
 
 //Возвращает массив с информацей о рекомендуемых книгах
 Book.getRecommendedBooks = result => {
-  sql.query(`SELECT b_id AS id, b_is_new AS is_new
+  sql.query(`SELECT b_id     AS id,
+                    b_image     AS image,
+                    b_is_new AS is_new
              FROM books
              WHERE b_is_recommended = 1
              GROUP BY b_id
@@ -414,6 +421,7 @@ Book.getBooksByGenreId = (genreId, result) => {
   sql.query(`SELECT
                b_id  AS id,
                b_name  AS name,
+               b_image  AS image,
                b_price  AS price,
                b_is_new  AS is_new,
                GROUP_CONCAT(DISTINCT a_name ORDER BY a_name)
@@ -449,6 +457,7 @@ Book.getBooksByAuthorId = (authorId, result) => {
   sql.query(`SELECT
 			b_id  AS id,
 			b_name  AS name,
+			b_image  AS image,
 			b_price  AS price,
 			b_is_new  AS is_new,
 			GROUP_CONCAT(DISTINCT a_name ORDER BY a_name)
@@ -477,28 +486,17 @@ Book.getBooksByAuthorId = (authorId, result) => {
 
 }
 
-function addImageUri(booksArray) {
-
-  if (booksArray.length !== 0) {
-    function getImageUri(bookId) {
-      let noImage = 'no-image.jpg';
-      let path = '/images/books/';
-      let pathToBookImage = path + bookId + '.jpg';
-      let result = fs.existsSync('upload' + pathToBookImage);
-      if (result) {
-        return pathToBookImage;
-      } else {
-        return path + noImage;
-      }
+Book.getLastId = result => {
+  sql.query('SELECT b_id FROM books ORDER BY b_id DESC LIMIT 1', (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
     }
+    console.log(`Found last id=${res[0].b_id} from books table`);
+    console.log(res);
+    result(null, res[0].b_id);
+  });
+};
 
-    booksArray.forEach(function (book) {
-      book.image = getImageUri(book.id)
-    })
-    return booksArray;
-  } else {
-    return booksArray;
-  }
-}
-
-module.exports = {Book, addImageUri};
+module.exports = Book;

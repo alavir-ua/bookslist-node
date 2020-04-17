@@ -21,8 +21,7 @@ Book.createBook = (newBook, options, result) => {
       result(err, null);
       return;
     }
-    console.log("created book: ", {id: res.insertId, ...newBook});
-    result(null, {id: res.insertId, ...newBook});
+
     let bookId = res.insertId;
 
     options.genres.forEach(function (genre_id) {
@@ -32,7 +31,7 @@ Book.createBook = (newBook, options, result) => {
           result(err, null);
           return;
         }
-        result(null, {id: res.insertId});
+        console.log(res);
       });
     })
 
@@ -43,10 +42,34 @@ Book.createBook = (newBook, options, result) => {
           result(err, null);
           return;
         }
-        result(null, {id: res.insertId});
+        console.log(res);
       });
     })
+
+    console.log("created book: ", {id: res.insertId, ...newBook});
+    result(null, {id: res.insertId, ...newBook});
+    return newBook;
   });
+};
+
+Book.updateBookImage = (bookId, result) => {
+  let image =  `/images/books/${bookId}.jpg`;
+  sql.query(`UPDATE books SET b_image=\'${image}\' WHERE b_id=${bookId}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows === 0) {
+        // not found Customer with the id
+        result({kind: "not_found"}, null);
+        return;
+      }
+      console.log(`updated image of book id=${bookId}`);
+      // result(null, res);
+    }
+  );
 };
 
 //Удаляет книгу

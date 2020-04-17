@@ -75,13 +75,11 @@ exports.book_create = (req, res) => {
       authors: req.body.author_id
     }
     delete req.body.genre_id;
-
     delete req.body.author_id;
     let image = '';
 
     let file = req.file;
     if (!file) {
-
       image = null;
       console.log("Error loading file");
     } else {
@@ -106,8 +104,22 @@ exports.book_create = (req, res) => {
           message:
             err.message || "Some error occurred while creating the Book"
         });
-    });
 
+      if (file) {
+        let oldPath = 'upload' + `${data.b_image}`;
+        let newPath = `upload/images/books/${data.id}.jpg`
+        fs.renameSync(oldPath, newPath);
+        console.log("File renamed successfully");
+          Book.updateBookImage(data.id, (err, result) => {
+            if (err)
+              res.status(500).send({
+                message:
+                  err.message || "Some error occurred while updating the book image"
+              });
+            console.log(result);
+          });
+      }
+    });
     res.redirect('/admin/books');
   }
 }

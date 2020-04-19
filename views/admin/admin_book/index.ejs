@@ -59,7 +59,7 @@
               </td>
               <td><a href="/admin/book/update/<%= book.id %>" title="Редактировать"><i
                     class="fa fa-pencil-square-o"></i></a></td>
-              <td><a href="/admin/book/delete/<%= book.id %>" title="Удалить"><i class="fa
+              <td><a id="deleteBook" data-id="<%= book.id %>" href="/admin/book/delete/<%= book.id %>" title="Удалить"><i class="fa
                         fa-times"></i></a></td>
             </tr>
         <% }); %>

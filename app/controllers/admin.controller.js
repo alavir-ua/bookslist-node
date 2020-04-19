@@ -110,16 +110,41 @@ exports.book_create = (req, res) => {
         let newPath = `upload/images/books/${data.id}.jpg`
         fs.renameSync(oldPath, newPath);
         console.log("File renamed successfully");
-          Book.updateBookImage(data.id, (err, result) => {
-            if (err)
-              res.status(500).send({
-                message:
-                  err.message || "Some error occurred while updating the book image"
-              });
-            console.log(result);
-          });
+        Book.updateBookImage(data.id, (err, result) => {
+          if (err)
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while updating the book image"
+            });
+          console.log(result);
+        });
       }
     });
     res.redirect('/admin/books');
   }
 }
+
+exports.book_delete = (req, res) => {
+  Book.deleteBookById(req.params.bookId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found book with id ${req.params.bookId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete book with id " + req.params.bookId
+        });
+      }
+    } else
+      fs.access(`upload/images/books/${req.params.bookId}.jpg`, fs.F_OK, (err) => {
+        if (err) {
+          return
+        } else
+          fs.unlinkSync(`upload/images/books/${req.params.bookId}.jpg`);
+        console.log(`Image of book with id=${req.params.bookId} deleted successfully`);
+      })
+    res.redirect('/admin/books');
+  });
+}
+

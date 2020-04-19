@@ -72,25 +72,22 @@ Book.updateBookImage = (bookId, result) => {
   );
 };
 
-//Удаляет книгу
-/*Book.deleteBookById = (bookId, result) => {
-  sql.query("DELETE FROM books WHERE b_id = ?", bookId, (err, res) => {
+Book.deleteBookById = (bookId, result) => {
+  sql.query('DELETE FROM books WHERE b_id = ?', bookId, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
       return;
     }
-
     if (res.affectedRows === 0) {
       // not found book with the id
       result({kind: "not_found"}, null);
       return;
     }
-
     console.log("deleted book with id: ", bookId);
     result(null, res);
   });
-};*/
+};
 
 //Редактирует книгу с заданным id
 /*Book.updateBookById = (bookId, book, result) => {

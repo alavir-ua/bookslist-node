@@ -58,4 +58,14 @@ $(document).ready(function () {
     return false;
   });
 
+  $(document).on('click', '#deleteBook', function () {
+    let id = $(this).attr("data-id");
+    let conf = confirm(`Вы действительно хотите удалить книгу с id=${id}?`);
+    if(conf){
+      return conf;
+    } else {
+      return conf;
+    }
+  });
+
 });

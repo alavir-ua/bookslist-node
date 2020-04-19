@@ -17,6 +17,7 @@ app.use(session({
   maxAge: 600000, //10 min
   store: new MongoStore({
     url: `mongodb+srv://${config.USER}:${config.PASSWORD}@cluster0-ojveh.mongodb.net/test?retryWrites=true&w=majority`,
+    dbName: 'bookslist',
     ttl: 600,// 10 min
     secret: '5Rt67Vcs79jjh',
     useNewUrlParser: true,

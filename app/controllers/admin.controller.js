@@ -50,7 +50,6 @@ exports.book_index = (req, res) => {
 
 exports.book_create = (req, res) => {
   let title = 'Добавить книгу';
-  console.log(Object.keys(req.body).length)
   if (Object.keys(req.body).length === 0) {
     Author.getAuthorsList((err, authorsList) => {
       if (err)
@@ -74,18 +73,18 @@ exports.book_create = (req, res) => {
       genres: req.body.genre_id,
       authors: req.body.author_id
     }
-    delete req.body.genre_id;
-    delete req.body.author_id;
+   /* delete req.body.genre_id;
+    delete req.body.author_id;*/
     let image = '';
 
     let file = req.file;
     if (!file) {
       image = null;
-      console.log("Error loading file");
+      console.log("Error loading image");
     } else {
       let old_filename = file.filename;
       image = `/images/books/${old_filename}`
-      console.log("File uploaded successfully");
+      console.log("Image uploaded successfully");
     }
     const book = new Book({
       name: req.body.name,
@@ -109,6 +108,94 @@ exports.book_create = (req, res) => {
         let oldPath = 'upload' + `${data.b_image}`;
         let newPath = `upload/images/books/${data.id}.jpg`
         fs.renameSync(oldPath, newPath);
+        console.log("Image renamed successfully");
+        Book.updateBookImage(data.id, (err, result) => {
+          if (err)
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while updating the book image"
+            });
+          console.log(result);
+        });
+      }
+    });
+    res.redirect('/admin/books');
+  }
+}
+
+exports.book_update = (req, res) => {
+  let title = 'Редактировать книгу';
+  console.log(Object.keys(req.body).length)
+  if (Object.keys(req.body).length === 0) {
+    Author.getAuthorsList((err, authorsList) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving authors list"
+        });
+
+      Genre.getGenresList((err, genresList) => {
+        if (err)
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while retrieving genres list"
+          });
+
+        Book.getBookById(req.params.bookId, (err, book) => {
+          if (err) {
+            if (err.kind === "not_found") {
+              res.status(404).send({
+                message: `Not found book with id ${req.params.bookId}.`
+              });
+            } else {
+              res.status(500).send({
+                message: "Error retrieving book with id " + req.params.bookId
+              });
+            }
+          }
+          res.render('admin/admin_book/update', {title, book, authorsList, genresList});
+        });
+      });
+    });
+  } else {
+    const options = {
+      genres: req.body.genre_id,
+      authors: req.body.author_id
+    }
+    /*delete req.body.genre_id;
+    delete req.body.author_id;*/
+    // let image = '';
+    let bookId = req.params.bookId;
+    // let file = req.file;
+    // if (file) {
+    //   console.log("Image uploaded successfully");
+    //   let oldPath = `upload/images/books/` + file.filename;
+    //   let newPath = `upload/images/books/${id}.jpg`
+    //   fs.renameSync(oldPath, newPath);
+    //   console.log("Image renamed successfully");
+    //   image = `/images/books/${id}.jpg`
+    // }
+    const book = new Book({
+      name: req.body.name,
+      code: req.body.code,
+      price: req.body.price,
+      description: req.body.description,
+      is_new: req.body.is_new,
+      is_recommended: req.body.is_recommended,
+      status: req.body.status
+    });
+
+    Book.updateBookById(bookId, book, options, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the Book"
+        });
+
+      if (file) {
+        let oldPath = 'upload' + `${data.b_image}`;
+        let newPath = `upload/images/books/${data.id}.jpg`
+        fs.renameSync(oldPath, newPath);
         console.log("File renamed successfully");
         Book.updateBookImage(data.id, (err, result) => {
           if (err)
@@ -121,6 +208,7 @@ exports.book_create = (req, res) => {
       }
     });
     res.redirect('/admin/books');
+    res.end();
   }
 }
 

@@ -13,7 +13,6 @@ const Book = function (book) {
   this.b_status = book.status;
 };
 
-//Добавляет новую книгу
 Book.createBook = (newBook, options, result) => {
   sql.query("INSERT INTO books SET ?", newBook, (err, res) => {
     if (err) {
@@ -89,11 +88,10 @@ Book.deleteBookById = (bookId, result) => {
   });
 };
 
-//Редактирует книгу с заданным id
-/*Book.updateBookById = (bookId, book, result) => {
+Book.updateBookById = (bookId, book, options, result) => {
   sql.query(
-    "UPDATE books SET email = ?, name = ?, active = ? WHERE id = ?",
-    [customer.email, customer.name, customer.active, id],
+    'UPDATE books SET b_code = ?, b_name = ?, b_price = ?, b_description = ?, b_is_new = ?, b_is_recommended =?,' +
+    ' b_status = ? WHERE b_id = ?', [book.code, book.name, book.price, book.description, book.is_new, book.is_recommended, book.status, bookId],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -101,17 +99,32 @@ Book.deleteBookById = (bookId, result) => {
         return;
       }
 
-      if (res.affectedRows === 0) {
-        // not found Customer with the id
-        result({kind: "not_found"}, null);
-        return;
-      }
+      let bookId = res.insertId;
 
-      console.log("updated customer: ", {id: id, ...customer});
-      result(null, {id: id, ...customer});
+      options.genres.forEach(function (genre_id) {
+        sql.query(`INSERT INTO m2m_books_genres (g_id, b_id ) VALUE (${genre_id}, ${bookId})`, (err, res) => {
+          if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+          }
+          console.log(res);
+        });
+      })
+
+      options.authors.forEach(function (author_id) {
+        sql.query(`INSERT INTO m2m_books_authors (a_id, b_id ) VALUE (${author_id}, ${bookId})`, (err, res) => {
+          if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+          }
+          console.log(res);
+        });
+      })
     }
   );
-};*/
+};
 
 //Возвращает массив с информацей о книге
 Book.getBookById = (bookId, result) => {

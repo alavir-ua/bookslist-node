@@ -73,11 +73,10 @@ exports.book_create = (req, res) => {
       genres: req.body.genre_id,
       authors: req.body.author_id
     }
-   /* delete req.body.genre_id;
-    delete req.body.author_id;*/
-    let image = '';
 
+    let image = '';
     let file = req.file;
+
     if (!file) {
       image = null;
       console.log("Error loading image");
@@ -162,22 +161,13 @@ exports.book_update = (req, res) => {
       genres: req.body.genre_id,
       authors: req.body.author_id
     }
-    /*delete req.body.genre_id;
-    delete req.body.author_id;*/
-    // let image = '';
+
     let bookId = req.params.bookId;
-    // let file = req.file;
-    // if (file) {
-    //   console.log("Image uploaded successfully");
-    //   let oldPath = `upload/images/books/` + file.filename;
-    //   let newPath = `upload/images/books/${id}.jpg`
-    //   fs.renameSync(oldPath, newPath);
-    //   console.log("Image renamed successfully");
-    //   image = `/images/books/${id}.jpg`
-    // }
+    let file = req.file;
+
     const book = new Book({
-      name: req.body.name,
       code: req.body.code,
+      name: req.body.name,
       price: req.body.price,
       description: req.body.description,
       is_new: req.body.is_new,
@@ -185,30 +175,31 @@ exports.book_update = (req, res) => {
       status: req.body.status
     });
 
-    Book.updateBookById(bookId, book, options, (err, data) => {
+
+    Book.updateBookById(bookId, book, options, (err, result) => {
       if (err)
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the Book"
+          err.message || "Some error occurred while updating the book"
         });
 
       if (file) {
-        let oldPath = 'upload' + `${data.b_image}`;
-        let newPath = `upload/images/books/${data.id}.jpg`
+        let oldPath = 'upload' + `/images/books/${file.filename}`;
+        let newPath = `upload/images/books/${bookId}.jpg`
         fs.renameSync(oldPath, newPath);
-        console.log("File renamed successfully");
-        Book.updateBookImage(data.id, (err, result) => {
+        console.log("Image renamed successfully");
+
+        Book.updateBookImage(bookId, (err, result) => {
           if (err)
             res.status(500).send({
               message:
-                err.message || "Some error occurred while updating the book image"
+              err.message || "Some error occurred while updating the book image"
             });
           console.log(result);
         });
       }
     });
     res.redirect('/admin/books');
-    res.end();
   }
 }
 

@@ -52,7 +52,7 @@ Book.createBook = (newBook, options, result) => {
 };
 
 Book.updateBookImage = (bookId, result) => {
-  let image =  `/images/books/${bookId}.jpg`;
+  let image = `/images/books/${bookId}.jpg`;
   sql.query(`UPDATE books SET b_image=\'${image}\' WHERE b_id=${bookId}`,
     (err, res) => {
       if (err) {
@@ -66,7 +66,7 @@ Book.updateBookImage = (bookId, result) => {
         return;
       }
       console.log(`updated image of book id=${bookId}`);
-      // result(null, res);
+      result(null, res);
     }
   );
 };
@@ -89,39 +89,74 @@ Book.deleteBookById = (bookId, result) => {
 };
 
 Book.updateBookById = (bookId, book, options, result) => {
-  sql.query(
-    'UPDATE books SET b_code = ?, b_name = ?, b_price = ?, b_description = ?, b_is_new = ?, b_is_recommended =?,' +
-    ' b_status = ? WHERE b_id = ?', [book.code, book.name, book.price, book.description, book.is_new, book.is_recommended, book.status, bookId],
+  console.log(book)
+  sql.query(`UPDATE books
+             SET b_code           = ?,
+                 b_name           = ?,
+                 b_price          = ?,
+                 b_description    = ?,
+                 b_is_new         = ?,
+                 b_is_recommended = ?,
+                 b_status         = ?
+      WHERE b_id = ${bookId}`,
+    [book.b_code, book.b_name, book.b_price, book.b_description, book.b_is_new, book.b_is_recommended, book.b_status, bookId],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
         return;
       }
+      if (res.affectedRows === 0) {
+        result({kind: "not_found"}, null);
+        return;
+      }
 
-      let bookId = res.insertId;
-
-      options.genres.forEach(function (genre_id) {
-        sql.query(`INSERT INTO m2m_books_genres (g_id, b_id ) VALUE (${genre_id}, ${bookId})`, (err, res) => {
+      if (typeof options.genres === 'object') {  //жанры менялись
+        sql.query(`DELETE FROM m2m_books_genres WHERE b_id=${bookId}`, (err, res) => {
           if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
           }
           console.log(res);
+          options.genres.forEach(function (genre_id) {
+            sql.query(`INSERT INTO m2m_books_genres (g_id, b_id ) VALUE
+  (${genre_id}, ${bookId})`, (err, res) => {
+              if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+              }
+              console.log(res);
+            });
+          })
         });
-      })
+      }
 
-      options.authors.forEach(function (author_id) {
-        sql.query(`INSERT INTO m2m_books_authors (a_id, b_id ) VALUE (${author_id}, ${bookId})`, (err, res) => {
+      if (typeof options.authors === 'object') {  //авторы менялись
+        sql.query(`DELETE FROM m2m_books_authors WHERE b_id=${bookId}`, (err, res) => {
           if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
           }
           console.log(res);
+          options.authors.forEach(function (author_id) {
+            sql.query(`INSERT INTO m2m_books_authors (a_id, b_id ) VALUE
+  (${author_id}, ${bookId})`, (err, res) => {
+              if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+              }
+              console.log(res);
+            });
+          })
         });
-      })
+      }
+
+      console.log(`Updated book with id=${bookId}`);
+      result(null, res);
     }
   );
 };
@@ -255,6 +290,7 @@ Book.getAdminBooksLimit = (currentPage, pageSize, result) => {
         b_id  AS id,
         b_code  AS code,
         b_name  AS name,
+        b_image  AS image,
         b_price  AS price,
         b_is_new  AS is_new,
         b_is_recommended  AS is_recommended,
@@ -433,7 +469,7 @@ Book.getLatestBooks = result => {
 //Возвращает массив с информацей о рекомендуемых книгах
 Book.getRecommendedBooks = result => {
   sql.query(`SELECT b_id     AS id,
-                    b_image     AS image,
+                    b_image  AS image,
                     b_is_new AS is_new
              FROM books
              WHERE b_is_recommended = 1

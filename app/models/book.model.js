@@ -154,7 +154,6 @@ Book.updateBookById = (bookId, book, options, result) => {
           })
         });
       }
-
       console.log(`Updated book with id=${bookId}`);
       result(null, res);
     }

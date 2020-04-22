@@ -124,7 +124,6 @@ exports.book_create = (req, res) => {
 
 exports.book_update = (req, res) => {
   let title = 'Редактировать книгу';
-  console.log(Object.keys(req.body).length)
   if (Object.keys(req.body).length === 0) {
     Author.getAuthorsList((err, authorsList) => {
       if (err)
@@ -228,7 +227,7 @@ exports.book_delete = (req, res) => {
 }
 
 exports.genre_index = (req, res) => {
-  Genre.getGenresList((err, genresList) => {
+  Genre.getGenresListAdmin((err, genresList) => {
     if (err)
       res.status(500).send({
         message:
@@ -258,6 +257,42 @@ exports.genre_create = (req, res) => {
             err.message || "Some error occurred while creating the genre"
         });
       console.log(data)
+    });
+    res.redirect('/admin/genres');
+  }
+}
+
+exports.genre_update = (req, res) => {
+  let title = 'Редактировать жанр';
+  if (Object.keys(req.body).length === 0) {
+    Genre.getGenreById(req.params.genreId,(err, genre) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found genre with id ${req.params.genreId}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving genre with id " + req.params.genreId
+          });
+        }
+      }
+      console.log(genre)
+      res.render('admin/admin_genre/update', {title, genre});
+    });
+  } else {
+    let genreId = req.params.genreId;
+    const genre = new Genre({
+      name: req.body.name,
+      status: req.body.status,
+    });
+    Genre.updateGenreById(genreId, genre, (err, result) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while updating the book"
+        });
+
     });
     res.redirect('/admin/genres');
   }

@@ -19,8 +19,8 @@ module.exports = app => {
   // Управление жанрами
   app.get("/admin/genres", admin.genre_index);
   app.all("/admin/genre/create", admin.genre_create);
-  // app.get("/admin/genre/update/:genreId", admin.genre_update);
-  //
+  app.all("/admin/genre/update/:genreId", admin.genre_update);
+
   // // Управление авторами
   // app.get("/admin/authors", admin.author_index);
   // app.get("/admin/author/create", admin.author_create);

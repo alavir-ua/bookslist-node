@@ -226,7 +226,7 @@ exports.book_delete = (req, res) => {
   });
 }
 
-exports.genre_index = (req, res) => {
+exports.genres_index = (req, res) => {
   Genre.getGenresListAdmin((err, genresList) => {
     if (err)
       res.status(500).send({
@@ -295,5 +295,41 @@ exports.genre_update = (req, res) => {
 
     });
     res.redirect('/admin/genres');
+  }
+}
+
+exports.authors_index = (req, res) => {
+ Author.getAuthorsListAdmin((err, authorsList) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving genres"
+      });
+    let title = 'Управление иавторам';
+    res.render('admin/admin_author/index', {title, authorsList});
+  });
+}
+
+exports.author_create = (req, res) => {
+  let title = 'Добавить автора';
+  if (Object.keys(req.body).length === 0) {
+    res.render('admin/admin_author/create', {title});
+
+  } else {
+
+    const author = new Author({
+      name: req.body.name,
+      status: req.body.status,
+    });
+
+    Author.createAuthor(author, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the author"
+        });
+      console.log(data)
+    });
+    res.redirect('/admin/authors');
   }
 }

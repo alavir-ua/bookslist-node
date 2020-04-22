@@ -17,13 +17,13 @@ module.exports = app => {
   app.get("/admin/book/delete/:bookId", admin.book_delete);
 
   // Управление жанрами
-  app.get("/admin/genres", admin.genre_index);
+  app.get("/admin/genres", admin.genres_index);
   app.all("/admin/genre/create", admin.genre_create);
   app.all("/admin/genre/update/:genreId", admin.genre_update);
 
-  // // Управление авторами
-  // app.get("/admin/authors", admin.author_index);
-  // app.get("/admin/author/create", admin.author_create);
+  // Управление авторами
+  app.get("/admin/authors", admin.authors_index);
+  app.all("/admin/author/create", admin.author_create);
 
   // Управление заказами
   // app.get("/admin/orders", admin.order_index);

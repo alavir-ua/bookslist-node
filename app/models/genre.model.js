@@ -32,7 +32,7 @@ Genre.getGenresList = result => {
   });
 };
 
-//Возвращает массив жанров книг на сайте
+//Возвращает массив жанров книг для админпанели
 Genre.getGenresListAdmin = result => {
   sql.query('SELECT g_id AS id, g_name AS name, g_status AS status FROM genres ORDER BY g_id ASC', (err, res) => {
     if (err) {

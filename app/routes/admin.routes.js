@@ -17,7 +17,7 @@ module.exports = app => {
   app.get("/admin/book/delete/:bookId", admin.book_delete);
   //
   // // Управление жанрами
-  // app.get("/admin/genres", admin.genre_index);
+  app.get("/admin/genres", admin.genre_index);
   // app.get("/admin/genre/create", admin.genre_create);
   // app.get("/admin/genre/update/:genreId", admin.genre_update);
   //

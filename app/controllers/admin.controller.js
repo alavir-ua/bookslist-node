@@ -227,3 +227,14 @@ exports.book_delete = (req, res) => {
   });
 }
 
+exports.genre_index = (req, res) => {
+  Genre.getGenresList((err, genresList) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving genres"
+      });
+    let title = 'Управление жанрами';
+    res.render('admin/admin_genre/index', {title, genresList});
+  });
+}

@@ -15,10 +15,10 @@ module.exports = app => {
   app.all("/admin/book/create", admin.book_create);
   app.all("/admin/book/update/:bookId", admin.book_update);
   app.get("/admin/book/delete/:bookId", admin.book_delete);
-  //
-  // // Управление жанрами
+
+  // Управление жанрами
   app.get("/admin/genres", admin.genre_index);
-  // app.get("/admin/genre/create", admin.genre_create);
+  app.all("/admin/genre/create", admin.genre_create);
   // app.get("/admin/genre/update/:genreId", admin.genre_update);
   //
   // // Управление авторами

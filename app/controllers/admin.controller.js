@@ -243,56 +243,22 @@ exports.genre_create = (req, res) => {
   let title = 'Добавить жанр';
   if (Object.keys(req.body).length === 0) {
     res.render('admin/admin_genre/create', {title});
+
   } else {
-    const options = {
-      genres: req.body.genre_id,
-      authors: req.body.author_id
-    }
 
-    let image = '';
-    let file = req.file;
-
-    if (!file) {
-      image = null;
-      console.log("Error loading image");
-    } else {
-      let old_filename = file.filename;
-      image = `/images/books/${old_filename}`
-      console.log("Image uploaded successfully");
-    }
-    const book = new Book({
+    const genre = new Genre({
       name: req.body.name,
-      image: image,
-      code: req.body.code,
-      price: req.body.price,
-      description: req.body.description,
-      is_new: req.body.is_new,
-      is_recommended: req.body.is_recommended,
-      status: req.body.status
+      status: req.body.status,
     });
 
-    Book.createBook(book, options, (err, data) => {
+    Genre.createGenre(genre, (err, data) => {
       if (err)
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the Book"
+            err.message || "Some error occurred while creating the genre"
         });
-
-      if (file) {
-        let oldPath = 'upload' + `${data.b_image}`;
-        let newPath = `upload/images/books/${data.id}.jpg`
-        fs.renameSync(oldPath, newPath);
-        console.log("Image renamed successfully");
-        Book.updateBookImage(data.id, (err, result) => {
-          if (err)
-            res.status(500).send({
-              message:
-                err.message || "Some error occurred while updating the book image"
-            });
-          console.log(result);
-        });
-      }
+      console.log(data)
     });
-    res.redirect('/admin/books');
+    res.redirect('/admin/genres');
   }
 }

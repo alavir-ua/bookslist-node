@@ -2,8 +2,8 @@ const sql = require("../helpers/db.js");
 
 // Конструктор
 const Genre = function (genre) {
-  this.name = genre.g_name;
-  this.status = genre.g_status;
+  this.g_name = genre.name;
+  this.g_status = genre.status;
 };
 
 //Добавляет новый жанр
@@ -14,10 +14,8 @@ Genre.createGenre = (newGenre, result) => {
       result(err, null);
       return;
     }
-
     console.log("created genre: ", {id: res.insertId, ...newGenre});
     result(null, {id: res.insertId, ...newGenre});
-    return res.insertId;
   });
 };
 

@@ -9,6 +9,7 @@ exports.index = (req, res) => {
   res.render('admin/index', {title});
 }
 
+// Управление книгами
 exports.book_index = (req, res) => {
   Book.getCountBooks((err, totalBooks) => {
     if (err)
@@ -226,6 +227,7 @@ exports.book_delete = (req, res) => {
   });
 }
 
+// Управление жанрами
 exports.genres_index = (req, res) => {
   Genre.getGenresListAdmin((err, genresList) => {
     if (err)
@@ -277,7 +279,6 @@ exports.genre_update = (req, res) => {
           });
         }
       }
-      console.log(genre)
       res.render('admin/admin_genre/update', {title, genre});
     });
   } else {
@@ -298,6 +299,7 @@ exports.genre_update = (req, res) => {
   }
 }
 
+// Управление авторами
 exports.authors_index = (req, res) => {
  Author.getAuthorsListAdmin((err, authorsList) => {
     if (err)
@@ -305,7 +307,7 @@ exports.authors_index = (req, res) => {
         message:
           err.message || "Some error occurred while retrieving genres"
       });
-    let title = 'Управление иавторам';
+    let title = 'Управление авторам';
     res.render('admin/admin_author/index', {title, authorsList});
   });
 }
@@ -329,6 +331,41 @@ exports.author_create = (req, res) => {
             err.message || "Some error occurred while creating the author"
         });
       console.log(data)
+    });
+    res.redirect('/admin/authors');
+  }
+}
+
+exports.author_update = (req, res) => {
+  let title = 'Редактировать автора';
+  if (Object.keys(req.body).length === 0) {
+    Author.getAuthorById(req.params.authorId,(err, author) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found genre with id ${req.params.authorId}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving genre with id " + req.params.authorId
+          });
+        }
+      }
+      res.render('admin/admin_author/update', {title, author});
+    });
+  } else {
+    let authorId = req.params.authorId;
+    const author = new Author({
+      name: req.body.name,
+      status: req.body.status,
+    });
+    Author.updateAuthorById(authorId, author, (err, result) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while updating the book"
+        });
+
     });
     res.redirect('/admin/authors');
   }

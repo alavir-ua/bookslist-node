@@ -47,4 +47,40 @@ Author.getAuthorsListAdmin = result => {
   });
 };
 
+//Возвращает обьект автора по id
+Author.getAuthorById = (authorId, result) => {
+  sql.query(`SELECT a_id AS id, a_name AS name, a_status AS status FROM authors  WHERE a_id=${authorId} `, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log(`Found author in database with id=${authorId}`);
+    result(null, res[0]);
+  });
+};
+
+//Обновляет автора по id
+Author.updateAuthorById = (authorId, author, result) => {
+  sql.query(`UPDATE authors
+             SET a_name   = ?,
+                 a_status = ?
+      WHERE a_id = ${authorId}`,
+    [author.a_name, author.a_status, authorId],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows === 0) {
+        result({kind: "not_found"}, null);
+        return;
+      }
+      console.log(`Updated author with id=${authorId}`);
+      result(null, res);
+    }
+  );
+};
+
 module.exports = Author;

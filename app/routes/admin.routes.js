@@ -24,6 +24,7 @@ module.exports = app => {
   // Управление авторами
   app.get("/admin/authors", admin.authors_index);
   app.all("/admin/author/create", admin.author_create);
+  app.all("/admin/author/update/:authorId", admin.author_update);
 
   // Управление заказами
   // app.get("/admin/orders", admin.order_index);

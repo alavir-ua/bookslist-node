@@ -1,0 +1,67 @@
+<%- include ('../layouts/header.ejs') %>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3">
+        <div class="left-sidebar">
+          <h2>Жанры</h2>
+          <div class="panel-group category-products">
+            <% genresList.forEach(function(genre) { %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a href="/catalog/genre/<%= genre.id %>">
+                      <%= genre.name %>
+                    </a>
+                  </h4>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+          <h2>Авторы</h2>
+          <div class="panel-group category-products">
+            <% authorsList.forEach(function(author) { %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a href="/catalog/author/<%= author.id %>">
+                      <%= author.name %>
+                    </a>
+                  </h4>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-9 padding-right">
+        <div class="features_items">
+          <h2 class="title text-center">STRIPE CARD PAY METHOD</h2>
+          <div id="card" class="row">
+            <div class="col-sm-12">
+              <div class="login-form">
+                <form action="/order/charge" method="post" id="payment-form">
+                  <div class="form-row">
+                    <label for="card-element" style="font-size: 18px">
+                      Credit or debit card
+                    </label>
+                    <div id="card-element">
+                      <!-- A Stripe Element will be inserted here. -->
+                    </div>
+                    <!-- Used to display Element errors. -->
+                    <div id="card-errors" role="alert"></div>
+                  </div>
+                  <button>Submit Payment</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include ('../layouts/footer.ejs') %>

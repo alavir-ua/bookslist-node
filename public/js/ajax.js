@@ -40,7 +40,7 @@ $(function () {
         } else {
           html = '<h4>Корзина пуста</h4><br>\n' +
             '\n' +
-            '          <a class="btn btn-default checkout" href="/"><i class="fa fa-shopping-cart"></i> Вернуться к покупкам</a>';
+            '          <a class="btn btn-default order" href="/"><i class="fa fa-shopping-cart"></i> Вернуться к покупкам</a>';
           $('#cartBlock').html(html);
           $('#cart-count').text(count);
         }
@@ -57,7 +57,7 @@ $(function () {
         let count = result.count;
         html = '<h4>Корзина пуста</h4><br>\n' +
           '\n' +
-          '          <a class="btn btn-default checkout" href="/"><i class="fa fa-shopping-cart"></i> Вернуться к покупкам</a>';
+          '          <a class="btn btn-default order" href="/"><i class="fa fa-shopping-cart"></i> Вернуться к покупкам</a>';
         $('#cartBlock').html(html);
         $('#cart-count').text(count);
       }

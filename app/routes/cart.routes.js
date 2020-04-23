@@ -11,9 +11,6 @@ module.exports = app => {
 
   app.get("/cart/clear", cart.clear);
 
-  app.get("/cart/checkout", authUser, cart.checkout);
-
-  app.post("/cart/charge", authUser, cart.charge);
 };
 
 

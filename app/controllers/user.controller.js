@@ -56,7 +56,8 @@ exports.login = (req, res) => {
     req.session.user = {
       id: user.id,
       role: user.role,
-      name: user.name
+      name: user.name,
+      email: user.email
     };
 
     if (req.session.user.role === 'admin') {

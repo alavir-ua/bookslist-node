@@ -2,9 +2,6 @@ const Book = require("../models/book.model");
 const Genre = require("../models/genre.model");
 const Author = require("../models/author.model");
 const Cart = require("../models/cart.model");
-const stripeConfig = require("../config/stripe.config.js");
-const sk = stripeConfig.SECRET_KEY;
-const stripe = require('stripe')(sk);
 
 exports.index = (req, res) => {
   Author.getAuthorsList((err, authorsList) => {
@@ -71,48 +68,6 @@ exports.clear = (req, res) => {
   res.status(200).json({ count: cart.totalItems});
 }
 
-exports.checkout = (req, res) => {
-  Author.getAuthorsList((err, authorsList) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving authors list"
-      });
 
-    Genre.getGenresList((err, genresList) => {
-      if (err)
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving genres list"
-        });
-
-      let title = 'Оформление заказа';
-      res.render('cart/checkout', {title, genresList, authorsList});
-    });
-  });
-};
-
-exports.charge = (req, res) => {
-  let title = 'Completed';
-  try {
-    stripe.customers
-      .create({
-        name: req.body.name,
-        email: req.body.email,
-        source: req.body.stripeToken
-      })
-      .then(customer =>
-        stripe.charges.create({
-          amount: req.body.amount * 100,
-          currency: "usd",
-          customer: customer.id
-        })
-      )
-      .then(() => res.render('cart/completed', {title}))
-      .catch(err => console.log(err));
-  } catch (err) {
-    res.send(err);
-  }
-};
 
 

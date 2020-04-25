@@ -43,6 +43,7 @@
             <div class="col-sm-12">
               <div class="login-form">
                 <form action="/order/charge" method="post" id="payment-form">
+                  <input type="hidden" name="order_id" value="<%= order_id %>">
                   <div class="form-row">
                     <label for="card-element" style="font-size: 18px">
                       Credit or debit card

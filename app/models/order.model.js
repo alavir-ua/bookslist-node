@@ -1,5 +1,6 @@
 const sql = require("../helpers/db.js");
-const fs = require('fs');
+const moment = require('moment');
+moment.locale();
 
 // Конструктор
 const Order = function (order) {
@@ -18,45 +19,22 @@ const Order = function (order) {
   this.post_code = order.post_code;
   this.phone_number = order.phone_number;
   this.notes = order.notes;
+  this.created_at = moment().format('LLL');
 };
 
-Order.createOrder = (newBook, options, result) => {
-  sql.query("INSERT INTO books SET ?", newBook, (err, res) => {
+Order.createOrder = (newOrder, result) => {
+  sql.query("INSERT INTO orders SET ?", newOrder, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-
-    let bookId = res.insertId;
-
-    options.genres.forEach(function (genre_id) {
-      sql.query(`INSERT INTO m2m_books_genres (g_id, b_id ) VALUE (${genre_id}, ${bookId})`, (err, res) => {
-        if (err) {
-          console.log("error: ", err);
-          result(err, null);
-          return;
-        }
-        console.log(res);
-      });
-    })
-
-    options.authors.forEach(function (author_id) {
-      sql.query(`INSERT INTO m2m_books_authors (a_id, b_id ) VALUE (${author_id}, ${bookId})`, (err, res) => {
-        if (err) {
-          console.log("error: ", err);
-          result(err, null);
-          return;
-        }
-        console.log(res);
-      });
-    })
-
-    console.log("created book: ", {id: res.insertId, ...newBook});
-    result(null, {id: res.insertId, ...newBook});
-    return newBook;
+    console.log("placed order: ", {id: res.insertId, ...newOrder});
+    result(null, {id: res.insertId});
   });
 };
+
+
 
 Order.deleteOrderById = (bookId, result) => {
   sql.query('DELETE FROM books WHERE b_id = ?', bookId, (err, res) => {
@@ -236,4 +214,4 @@ Order.getCountOrders = result => {
   });
 };
 
-module.exports = Book;
+module.exports = Order;

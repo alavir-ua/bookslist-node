@@ -42,20 +42,26 @@
           <div id="card" class="row">
             <div class="col-sm-12">
               <div class="login-form">
-                <form action="/order/charge" method="post" id="payment-form">
-                  <input type="hidden" name="order_id" value="<%= order_id %>">
-                  <div class="form-row">
-                    <label for="card-element" style="font-size: 18px">
-                      Credit or debit card
-                    </label>
-                    <div id="card-element">
-                      <!-- A Stripe Element will be inserted here. -->
+                <% if(typeof message === 'undefined' && typeof error === 'undefined') { %>
+                  <form action="/order/charge" method="post" id="payment-form">
+                    <input type="hidden" name="order_id" value="<%= orderId %>">
+                    <div class="form-row">
+                      <label for="card-element" style="font-size: 18px">
+                        Credit or debit card
+                      </label>
+                      <div id="card-element">
+                        <!-- A Stripe Element will be inserted here. -->
+                      </div>
+                      <!-- Used to display Element errors. -->
+                      <div id="card-errors" role="alert"></div>
                     </div>
-                    <!-- Used to display Element errors. -->
-                    <div id="card-errors" role="alert"></div>
-                  </div>
-                  <button>Submit Payment</button>
-                </form>
+                    <button>Submit Payment</button>
+                  </form>
+                  <% } else if(typeof message !== 'undefined') { %>
+                    <h4 style="color: green;"><%= message %></h4>
+                  <% } else { %>
+                    <h4 style="color: red;"><%= error %></h4>
+                  <% } %>
               </div>
             </div>
           </div>

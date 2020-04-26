@@ -1,6 +1,4 @@
 const sql = require("../helpers/db.js");
-const moment = require('moment');
-moment.locale();
 
 // Конструктор
 const Order = function (order) {
@@ -19,7 +17,6 @@ const Order = function (order) {
   this.post_code = order.post_code;
   this.phone_number = order.phone_number;
   this.notes = order.notes;
-  this.created_at = moment().format('LLL');
 };
 
 Order.createOrder = (newOrder, result) => {
@@ -32,6 +29,48 @@ Order.createOrder = (newOrder, result) => {
     console.log("placed order: ", {id: res.insertId, ...newOrder});
     result(null, {id: res.insertId});
   });
+};
+
+Order.getOrderById = (orderId, result) => {
+  sql.query(`SELECT *
+             FROM orders
+  WHERE id=${orderId}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      console.log(`Found order in database with id=${orderId}`);
+      result(null, res[0]);
+      return;
+    }
+    result({kind: "not_found"}, null);
+  });
+
+}
+
+Order.updateOrderById = (orderId, options, result) => {
+  sql.query(`UPDATE orders
+             SET status         = ?,
+                 payment_status = ?,
+                 payment_method = ?
+      WHERE id = ${orderId}`,
+    [options.status, options.payment_status, options.payment_method],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows === 0) {
+        result({kind: "not_found"}, null);
+        return;
+      }
+      console.log(`Updated order with id=${orderId}`);
+      result(null, res);
+    }
+  );
 };
 
 
@@ -52,117 +91,6 @@ Order.deleteOrderById = (bookId, result) => {
     result(null, res);
   });
 };
-
-Order.updateOrderById = (bookId, book, options, result) => {
-  console.log(book)
-  sql.query(`UPDATE books
-             SET b_code           = ?,
-                 b_name           = ?,
-                 b_price          = ?,
-                 b_description    = ?,
-                 b_is_new         = ?,
-                 b_is_recommended = ?,
-                 b_status         = ?
-      WHERE b_id = ${bookId}`,
-    [book.b_code, book.b_name, book.b_price, book.b_description, book.b_is_new, book.b_is_recommended, book.b_status, bookId],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-      if (res.affectedRows === 0) {
-        result({kind: "not_found"}, null);
-        return;
-      }
-
-      if (typeof options.genres === 'object') {  //жанры менялись
-        sql.query(`DELETE FROM m2m_books_genres WHERE b_id=${bookId}`, (err, res) => {
-          if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-          }
-          console.log(res);
-          options.genres.forEach(function (genre_id) {
-            sql.query(`INSERT INTO m2m_books_genres (g_id, b_id ) VALUE
-  (${genre_id}, ${bookId})`, (err, res) => {
-              if (err) {
-                console.log("error: ", err);
-                result(err, null);
-                return;
-              }
-              console.log(res);
-            });
-          })
-        });
-      }
-
-      if (typeof options.authors === 'object') {  //авторы менялись
-        sql.query(`DELETE FROM m2m_books_authors WHERE b_id=${bookId}`, (err, res) => {
-          if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-          }
-          console.log(res);
-          options.authors.forEach(function (author_id) {
-            sql.query(`INSERT INTO m2m_books_authors (a_id, b_id ) VALUE
-  (${author_id}, ${bookId})`, (err, res) => {
-              if (err) {
-                console.log("error: ", err);
-                result(err, null);
-                return;
-              }
-              console.log(res);
-            });
-          })
-        });
-      }
-      console.log(`Updated book with id=${bookId}`);
-      result(null, res);
-    }
-  );
-};
-
-//Возвращает массив с информацей о книге
-Order.getOrderById = (bookId, result) => {
-  sql.query(`SELECT b_id             AS id,
-                    b_code           AS code,
-                    b_name           AS name,
-                    b_image          AS image,
-                    b_price          AS price,
-                    b_description    AS description,
-                    b_is_new         AS is_new,
-                    b_status         AS status,
-                    b_is_recommended AS is_recommended,
-                    GROUP_CONCAT(DISTINCT a_name ORDER BY a_name)
-                                     AS authors,
-                    GROUP_CONCAT(DISTINCT g_name ORDER BY g_name)
-                                     AS genres
-             FROM books
-                    JOIN m2m_books_authors USING (b_id)
-                    JOIN authors USING (a_id)
-                    JOIN m2m_books_genres USING (b_id)
-                    JOIN genres USING (g_id)
-  WHERE b_id = ${bookId}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log(`Found book in database with id=${bookId}`);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Customer with the id
-    result({kind: "not_found"}, null);
-  });
-
-}
 
 //Возвращает массив с информацей о книге для корзины
 Order.getOrderForCart = (bookId, result) => {

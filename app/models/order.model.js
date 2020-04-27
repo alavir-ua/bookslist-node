@@ -73,6 +73,35 @@ Order.updateOrderById = (orderId, options, result) => {
   );
 };
 
+Order.getCountOrders = result => {
+  sql.query(`SELECT count(id) AS count
+             FROM orders`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log(`Found ${res[0].count} orders in database`);
+    result(null, res[0].count);
+  });
+};
+
+Order.getAdminOrdersLimit = (currentPage, pageSize, result) => {
+
+  let offset = (currentPage - 1) * pageSize;
+
+  sql.query(`SELECT * FROM orders GROUP BY id ORDER BY id DESC LIMIT ${pageSize} OFFSET ${offset}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      console.log(`Found ${res.length} orders in database for admin page ${currentPage}`);
+      result(null, res);
+    });
+};
+
 
 
 Order.deleteOrderById = (bookId, result) => {
@@ -92,7 +121,6 @@ Order.deleteOrderById = (bookId, result) => {
   });
 };
 
-//Возвращает массив с информацей о книге для корзины
 Order.getOrderForCart = (bookId, result) => {
   sql.query(`SELECT b_id    AS id,
                     b_code  AS code,
@@ -126,20 +154,5 @@ Order.getOrderForCart = (bookId, result) => {
   });
 
 }
-
-//Возвращает общее число строк записей в каталоге (status = 1)
-Order.getCountOrders = result => {
-  sql.query(`SELECT count(b_id) AS count
-             FROM books
-             WHERE b_status = 1`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-    console.log(`Found ${res[0].count} books in database`);
-    result(null, res[0].count);
-  });
-};
 
 module.exports = Order;

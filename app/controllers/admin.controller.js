@@ -1,8 +1,11 @@
 const Author = require("../models/author.model");
 const Genre = require("../models/genre.model");
 const Book = require("../models/book.model");
+const Order = require("../models/order.model");
 const config = require("../config/site.config");
 const fs = require('fs');
+const moment = require('moment');
+moment.locale('uk');
 
 exports.index = (req, res) => {
   let title = 'Админпанель';
@@ -369,4 +372,42 @@ exports.author_update = (req, res) => {
     });
     res.redirect('/admin/authors');
   }
+}
+
+// Управление заказами
+exports.order_index = (req, res) => {
+  Order.getCountOrders((err, totalOrders) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving orders count"
+      });
+
+    let pageSize = config.SHOW_FOR_ADMIN,
+      pageCount = Math.ceil(totalOrders / pageSize),
+      currentPage = 1;
+
+    //set current page if specified as get variable (eg: /?page=2)
+    if (typeof req.query.page !== 'undefined') {
+      currentPage = +req.query.page;
+    }
+
+    Order.getAdminOrdersLimit(currentPage, pageSize, (err, adminOrdersLimit) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving orders for admin page"
+        });
+      let title = 'Управление заказами';
+      res.render('admin/admin_order/index', {
+        title,
+        moment,
+        adminOrdersLimit,
+        pageSize,
+        totalOrders,
+        pageCount,
+        currentPage
+      });
+    });
+  });
 }

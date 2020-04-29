@@ -34,6 +34,7 @@ exports.place = (req, res) => {
 
     const order = new Order({
       order_number: 'ORD-' + number,
+      view_status: 1,
       user_id: req.session.user.id,
       status: 'pending',
       grand_total: totalPrice,
@@ -48,6 +49,7 @@ exports.place = (req, res) => {
       country: req.body.country,
       post_code: req.body.post_code,
       phone_number: req.body.phone_number,
+      email: req.session.user.email,
       notes: req.body.notes,
     })
 

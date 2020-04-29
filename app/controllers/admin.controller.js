@@ -440,3 +440,20 @@ exports.order_view = (req, res) => {
     });
   });
 }
+
+exports.order_delete = (req, res) => {
+  Order.deleteOrderById(req.params.orderId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found order with id ${req.params.orderId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete order with id " + req.params.orderId
+        });
+      }
+    } else
+    res.redirect('/admin/orders');
+  });
+}

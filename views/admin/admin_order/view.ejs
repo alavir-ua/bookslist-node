@@ -15,14 +15,14 @@
         <div class="tile">
             <div class="row mb-4">
               <div class="col-6">
-                <h3 class="page-header"><i class="fa fa-globe"></i> <%= order.order_number%></h3>
+                <h4 class="page-header"><i class="fa fa-globe"></i> <%= order.order_number%></h4>
               </div>
             </div>
 
           <div class="col-md-5">
             <div class="row invoice-info">
               <div class="col-4"><b>Заказчик</b>
-                <address><%= order.first_name %>&nbsp;<%= order.last_name %><br>Email: {{ $order->user->email }}</address>
+                <address><%= order.first_name %>&nbsp;<%= order.last_name %><br>Email: <%= order.email %></address>
               </div>
               <div class="col-4"><b>Отправить по адресу</b>
                 <address><%= order.first_name %>&nbsp;<%= order.last_name %><br><%= order.address

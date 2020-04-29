@@ -14,7 +14,7 @@ module.exports = app => {
   app.get("/admin/books", admin.book_index);
   app.all("/admin/book/create", admin.book_create);
   app.all("/admin/book/update/:bookId", admin.book_update);
-  app.post("/admin/book/delete/:bookId", admin.book_delete);
+  app.get("/admin/book/delete/:bookId", admin.book_delete);
 
   // Управление жанрами
   app.get("/admin/genres", admin.genres_index);
@@ -29,7 +29,7 @@ module.exports = app => {
   // Управление заказами
   app.get("/admin/orders", admin.order_index);
   app.get("/admin/order/view/:orderId", admin.order_view);
-  // app.post("/admin/order/delete/:orderId", admin.order_delete);
+  app.get("/admin/order/delete/:orderId", admin.order_delete);
 
 };
 

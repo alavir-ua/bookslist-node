@@ -4,6 +4,7 @@ const sql = require("../helpers/db.js");
 // Конструктор
 const Order = function (order) {
   this.order_number = order.order_number;
+  this.view_status = order.view_status;
   this.user_id = order.user_id;
   this.status = order.status;
   this.grand_total = order.grand_total;
@@ -17,6 +18,7 @@ const Order = function (order) {
   this.country = order.country;
   this.post_code = order.post_code;
   this.phone_number = order.phone_number;
+  this.email = order.email;
   this.notes = order.notes;
 };
 
@@ -132,56 +134,20 @@ Order.getAdminOrdersLimit = (currentPage, pageSize, result) => {
     });
 };
 
-
-Order.deleteOrderById = (bookId, result) => {
-  sql.query('DELETE FROM books WHERE b_id = ?', bookId, (err, res) => {
+Order.deleteOrderById = (orderId, result) => {
+  sql.query('DELETE FROM orders WHERE id = ?', orderId, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
       return;
     }
     if (res.affectedRows === 0) {
-      // not found book with the id
       result({kind: "not_found"}, null);
       return;
     }
-    console.log("deleted book with id: ", bookId);
+    console.log("deleted order with id: ", orderId);
     result(null, res);
   });
 };
-
-Order.getOrderForCart = (bookId, result) => {
-  sql.query(`SELECT b_id    AS id,
-                    b_code  AS code,
-                    b_name  AS name,
-                    b_price AS price,
-                    GROUP_CONCAT(DISTINCT a_name ORDER BY a_name)
-                            AS authors,
-                    GROUP_CONCAT(DISTINCT g_name ORDER BY g_name)
-                            AS genres
-             FROM books
-                    JOIN m2m_books_authors USING (b_id)
-                    JOIN authors USING (a_id)
-                    JOIN m2m_books_genres USING (b_id)
-                    JOIN genres USING (g_id)
-  WHERE b_id = ${bookId}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    if (res.length) {
-      console.log(`Found book in database for cart with id=${bookId}`);
-      // result(null, Object.values(JSON.parse(JSON.stringify(res)))[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found Customer with the id
-    result({kind: "not_found"}, null);
-  });
-
-}
 
 module.exports = Order;

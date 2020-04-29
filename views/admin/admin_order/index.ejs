@@ -33,16 +33,20 @@
               <td><%= order.first_name %>&nbsp;<%= order.last_name %></td>
               <td>₴<%= order.grand_total %></td>
               <td><%= order.item_count %></td>
-              <td><% if(order.status === 'completed') { %>
+              <td>
+                <% if(order.status === 'completed') { %>
                   <b><span style="color: green;">Завершен</span></b>
                 <% } else { %>
                   <b><span style="color: red;">Не завершен</span></b>
-                <% } %></td>
+                <% } %>
+              </td>
               <td><%= moment(order.created_at).format('LLL') %></td>
               <td><%= moment(order.updated_at).format('LLL') %></td>
               <td><a href="/admin/order/view/<%= order.id %>" title="Посмотреть"><i
                     class="fa fa-eye"></i></a></td>
-              <td><a href="/admin/order/delete/<%= order.id %>" title="Удалить"><i class="fa fa-times"></i></a></td>
+              <td><a id="deleteOrder" data-id="<%= order.order_number %>" href="/admin/order/delete/<%= order.id %>"
+                     title="Удалить"><i class="fa
+                        fa-times"></i></a></td>
             </tr>
           <% }); %>
         </table>

@@ -68,4 +68,14 @@ $(document).ready(function () {
     }
   });
 
+  $(document).on('click', '#deleteOrder', function () {
+    let number = $(this).attr("data-id");
+    let conf = confirm(`Вы действительно хотите удалить заказ #${number}?`);
+    if(conf){
+      return conf;
+    } else {
+      return conf;
+    }
+  });
+
 });

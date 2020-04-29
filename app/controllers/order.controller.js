@@ -2,6 +2,7 @@ const Genre = require("../models/genre.model");
 const Author = require("../models/author.model");
 const Order = require("../models/order.model");
 const Cart = require("../models/cart.model");
+const User = require("../models/user.model");
 const stripeConfig = require("../config/stripe.config.js");
 const sk = stripeConfig.SECRET_KEY;
 const stripe = require('stripe')(sk);
@@ -21,10 +22,11 @@ exports.place = (req, res) => {
             message:
               err.message || "Some error occurred while retrieving genres list"
           });
-        let title = 'Оформление заказа';
-        res.render('order/form', {title, genresList, authorsList});
+
+          let title = 'Оформление заказа';
+          res.render('order/form', {title, genresList, authorsList});
+        });
       });
-    });
   } else {
     let number = Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
     let cart = new Cart(req.session.cart);
@@ -92,7 +94,7 @@ exports.card = (req, res) => {
           }
         }
         let title = 'Оплата картой';
-        if(order.payment_status !== 1 && order.payment_method === null && order.status !== 'completed'){
+        if (order.payment_status !== 1 && order.payment_method === null && order.status !== 'completed') {
           return res.render('order/card', {title, orderId, genresList, authorsList});
         }
         let message = `Заказ #${order.order_number} уже оплачен`;

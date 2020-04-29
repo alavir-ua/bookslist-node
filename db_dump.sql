@@ -1,9 +1,11 @@
 -- phpMyAdmin SQL Dump
 -- version 4.9.0.1
+-- phpMyAdmin SQL Dump
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Апр 23 2020 г., 23:10
+-- Время создания: Апр 29 2020 г., 20:42
 -- Версия сервера: 10.3.15-MariaDB
 -- Версия PHP: 7.3.6
 
@@ -124,7 +126,8 @@ INSERT INTO `books` (`b_id`, `b_code`, `b_name`, `b_image`, `b_price`, `b_descri
 (85, 483637, 'Нефертити', '/images/books/85.jpg', '60.50', 'Нефертити была величайшей царицей, богиней, заключенной в теле земной женщины. Она прошла долгий путь, полный боли, отчаянной борьбы и пламенной страсти. Совсем юной она стала супругой фараона Эхнатона, одного из самых загадочных правителей. Эхнатон был покорен чарами и умом Нефертити, желал подарить ей все сокровища Египта и весь мир. В руках юной Нефертити — сердце фараона. Но хватит ли ей сил удержать его? Ведь с первого дня ей пришлось вступить в соперничество со старшей женой Эхнатона — Кией. Какую цену придется заплатить за обретенную власть и могущество?..', 1, 1, 1),
 (86, 828917, 'Джерело', '/images/books/86.jpg', '145.00', 'Століттями релігії світу намагалися пояснити походження людини. І ось Кірш — колишній учень Роберта Ленґдона, відомий мільярдер та винахідник — здійснює приголомшливе відкриття, яке здатне не просто похитнути, а й спростувати постулати всіх релігій. На сенсаційну лекцію в музеї Ґуґґенгайма запрошено і професора Роберта Ленґдона. Але Кірш не встигає викласти свою неймовірну теорію — його вбивають. Матеріали лекції Кірша захищені 47-значним паролем… Тепер від професора Ленґдона та директорки музею Амбри Відаль залежить, чи дізнається світ таємницю свого походження.', 0, 0, 1),
 (89, 251284, 'Обіцянка собаки ', '/images/books/89.jpg', '95.70', 'Кажуть, усі собаки потрапляють до раю. Особливо такі, як Бейлі. Він прожив чимало життів і нарешті може спочити. Та Ітан, перший господар Бейлі, знов відправляє його на землю. Врятувати ще одну родину. Виконати свою останню обіцянку людям. Тут без жертв не обійтися: Бейлі має забути свої попередні життя та втратити спогади про Ітана. Віддати найдорожче заради щастя чужої родини. Однак собача любов здатна творити великі дива. І Бейлі готовий до своєї останньої подорожі. ', 1, 0, 1),
-(90, 721365, 'На запах м`яса ', '/images/books/90.jpg', '100.70', 'У переддень Різдва, коли куми тільки вкрали сирну бабу в Миколиної жінки з-під рук і подалися до кролятника грішити, рейсовий автобус, що він зазвичай раз на тиждень через Добрики й Капулетці аж до глухої Радості з рипом дістається, заглух у Добриках — кінець забаві! Майка з легким рюкзаком і важким серцем останньою вишкреблася із сумнівного транспорту.', 0, 0, 1);
+(91, 723823, 'Володар Туману', '/images/books/91.jpg', '85.50', 'Родина тринадцятирічного Макса переїздить до тихого прибережного містечка. Та з першого ж дня хлопець відчуває щось дивне. Ці старовинні будівлі та химерні вулички — наче живі. І ці скульптури — здалося, чи вони ворушаться? Стрілки годинників тут інколи починають рухатися у зворотному напрямку. А під час буревію з морського дна підіймаються затонулі кораблі. Загадкою оповита історія колишнього господаря будинку, де оселилася родина Макса. Та ось дивний доглядач маяка розповідає легенду про безжалісного й могутнього Володаря Туману, який століттями панував у цих краях. А тепер він повернувся, щоб зібрати борги минулого…', 1, 1, 1),
+(92, 825752, 'Де немає Бога', '/images/books/92.jpg', '109.00', 'Люди — соціальні істоти. Існування суспільства неможливе без співпраці, розуміння та дотримання справедливості. Та чи існує це все поза соціумом, коли людина опиняється на межі життя та смерті?\r\nДоведена до відчаю українка з великою сумою грошей, яка ігнорує дзвінки від чоловіка. Росіянин-пілот, який намагається приборкати аерофобію після загибелі коханки в катастрофі рейсу MH17. Найвідоміший політик Баварії на пікові кар’єри, який ненавидить свою роботу. Гравець американської Національної футбольної ліги, життя якого розвалилося після одного невдалого розіграшу. Таємний папський кардинал, який прямує до країни, де офіційно не існує Католицької церкви... Незнайомці з різними долями. Єдине спільне для них — рейс 341, і він веде до найбільшого випробування у їхньому житті.\r\n«Де немає Бога» — новий роман Кідрука — спроба збагнути, чи є всередині нас щось таке, що втримує від перетворення на звірів у місці, де не діє мораль, у місці, де немає Бога.', 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -231,7 +234,8 @@ INSERT INTO `m2m_books_authors` (`id`, `a_id`, `b_id`) VALUES
 (107, 10, 85),
 (108, 4, 86),
 (118, 2, 89),
-(119, 9, 90);
+(120, 4, 91),
+(121, 6, 92);
 
 -- --------------------------------------------------------
 
@@ -314,7 +318,8 @@ INSERT INTO `m2m_books_genres` (`id`, `g_id`, `b_id`) VALUES
 (115, 3, 85),
 (116, 4, 86),
 (126, 3, 89),
-(127, 3, 90);
+(128, 1, 91),
+(129, 2, 92);
 
 -- --------------------------------------------------------
 
@@ -325,6 +330,7 @@ INSERT INTO `m2m_books_genres` (`id`, `g_id`, `b_id`) VALUES
 CREATE TABLE `orders` (
                         `id` int(11) NOT NULL,
                         `order_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `view_status` int(1) NOT NULL DEFAULT 1,
                         `user_id` int(11) NOT NULL,
                         `status` enum('pending','processing','completed','decline') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
                         `grand_total` decimal(10,2) NOT NULL,
@@ -338,10 +344,59 @@ CREATE TABLE `orders` (
                         `country` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                         `post_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                         `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                        `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
                         `notes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                        `created_at` timestamp NULL DEFAULT NULL,
-                        `updated_at` timestamp NULL DEFAULT NULL
+                        `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+                        `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `orders`
+--
+
+INSERT INTO `orders` (`id`, `order_number`, `view_status`, `user_id`, `status`, `grand_total`, `item_count`, `payment_status`, `payment_method`, `first_name`, `last_name`, `address`, `city`, `country`, `post_code`, `phone_number`, `email`, `notes`, `created_at`, `updated_at`) VALUES
+(83, 'ORD-82750679', 1, 2, 'completed', '388.21', 4, 1, 'Stripe-card_1GdKWBGugVswcy1pjEAIX7cN', 'Brent', 'Kuhlman', '46400 Gideon Walks', 'West Colbychester', 'Timor-Leste', '70869', '755-117-0379', 'yra@gmail.com', 'Qui fuga dicta laborum sit dolores blanditiis. Laudantium non veritatis. Non quia nobis error.', '2020-04-29 18:02:16', '2020-04-29 18:20:25'),
+(84, 'ORD-11887880', 1, 2, 'completed', '910.76', 1, 1, 'Stripe-card_8kf96DsroIy2rxj', 'Alyce', 'Littel', '32947 Katheryn Spurs', 'Elainamouth', 'Bermuda', '31300', '229-171-4047', 'yra@gmail.com', 'Molestiae architecto id vel ratione deserunt sit cum quae.', '2020-04-29 18:02:16', '2020-04-29 18:02:16'),
+(85, 'ORD-19464278', 1, 2, 'pending', '574.44', 5, 0, NULL, 'Stuart', 'Langworth', '93733 Hoppe Ford', 'South Angelica', 'Mexico', '72455', '764-255-0167', 'yra@gmail.com', 'magni', '2020-04-29 18:02:16', '2020-04-29 18:02:16'),
+(86, 'ORD-46888549', 1, 2, 'completed', '592.53', 7, 1, 'Stripe-card_MF1QP04XPF0Mi18', 'Genoveva', 'McKenzie', '19444 Jana Ridge', 'Legrosville', 'Bosnia and Herzegovina', '94192', '238-726-0939', 'yra@gmail.com', 'Omnis sed omnis. Praesentium eius voluptate aliquid in sed incidunt commodi blanditiis. Ea quis aut occaecati. Voluptatem officia ex officiis. Recusandae ex quia neque aspernatur non omnis.\n \rNemo sint molestiae molestiae totam eveniet. Quo impedit ipsam quas adipisci asperiores labore. Enim sunt reprehenderit ut est possimus pariatur aut nulla vitae. Omnis repellat vitae iusto asperiores dignissimos vel autem. Fugiat ipsam qui sit dolor perferendis voluptas adipisci in nobis. Voluptatibus explicabo omnis.\n \rMaxime eveniet perferendis vitae distinctio facere commodi a dolor at. Omnis rerum consequatur eligendi sit non sunt ut quod ratione. Ut voluptas rerum illo officia et autem. Impedit architecto amet sequi eveniet vel ea distinctio molestiae optio. Voluptate autem sit voluptas molestiae autem quo magnam totam.', '2020-04-29 18:02:16', '2020-04-29 18:02:16'),
+(87, 'ORD-95612128', 1, 2, 'pending', '357.65', 7, 0, NULL, 'Jude', 'Reilly', '283 Fay Circle', 'East Elisabethfurt', 'Venezuela', '32819', '141-786-8243', 'yra@gmail.com', 'Dolorem est neque ut.', '2020-04-29 18:02:16', '2020-04-29 18:02:16'),
+(93, 'ORD-50380940', 1, 58, 'pending', '514.09', 8, 0, NULL, 'Felix', 'Monahan', '566 Liana Fords', 'East Toney', 'British Indian Ocean Territory (Chagos Archipelago)', '31335', '158-956-4149', 'yra@gmail.com', 'Eligendi at iusto qui eos dolorum. Iste ut vero officia occaecati iure culpa sint praesentium in. Similique perspiciatis qui dicta pariatur. Laborum commodi beatae tempore odio molestiae atque in consectetur labore. Qui reiciendis architecto odit.', '2020-04-29 18:29:16', '2020-04-29 18:29:16'),
+(94, 'ORD-97139070', 1, 58, 'completed', '186.24', 2, 1, 'Stripe-card_2n24CB_ckTcXK_2', 'Alford', 'Nitzsche', '149 Lang Springs', 'New Carlotta', 'Mongolia', '17923', '046-918-0398', 'yra@gmail.com', 'Magnam unde omnis dolores officia expedita libero et omnis. Fugit similique asperiores. Iusto aspernatur voluptates est eos ratione consequuntur molestiae. Voluptatum temporibus est sapiente corrupti officia sed sint aut non. Omnis reprehenderit non perferendis.\n \rFacilis quos iste quis. Et nisi tempora. Incidunt praesentium voluptatem vero. Est aliquid earum. Dicta in ipsa soluta aspernatur non nihil libero vel est.\n \rDelectus ipsum molestiae sapiente doloremque rerum qui accusamus. Fugiat sunt a molestiae eligendi nihil aperiam a. Voluptatibus ipsa sed illo repellendus. Assumenda eos minus.', '2020-04-29 18:29:16', '2020-04-29 18:29:16'),
+(95, 'ORD-13217597', 1, 58, 'pending', '414.64', 7, 0, NULL, 'Katrine', 'Stoltenberg', '14738 Jerald Garden', 'North Amely', 'Saint Kitts and Nevis', '58067', '309-143-4837', 'yra@gmail.com', 'Eveniet consequatur tempore ipsum id.', '2020-04-29 18:29:16', '2020-04-29 18:29:16'),
+(96, 'ORD-15383307', 1, 58, 'pending', '974.14', 5, 0, NULL, 'Buster', 'Sanford', '072 Ila Haven', 'West Heloise', 'French Polynesia', '85224', '226-061-4303', 'yra@gmail.com', 'Sed quis qui aperiam in qui incidunt.\nEos ut ipsa dolorum et similique voluptatem qui expedita deleniti.', '2020-04-29 18:29:16', '2020-04-29 18:29:16'),
+(97, 'ORD-39342333', 1, 58, 'pending', '169.58', 7, 0, NULL, 'Jaquelin', 'Okuneva', '6177 Jaden Forest', 'New Fosterland', 'Seychelles', '21428', '643-749-0565', 'yra@gmail.com', 'Suscipit aliquid soluta sed facilis non nesciunt. Nihil voluptas ut labore quibusdam explicabo sit dolores. Itaque quam consectetur aut impedit sit sit. Qui maiores illo suscipit architecto molestiae et eius quia sint. Nesciunt magnam quibusdam.', '2020-04-29 18:29:16', '2020-04-29 18:29:16');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `order_items`
+--
+
+CREATE TABLE `order_items` (
+                             `id` int(11) NOT NULL,
+                             `order_id` int(11) NOT NULL,
+                             `book_id` int(11) NOT NULL,
+                             `book_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+                             `book_code` int(6) NOT NULL,
+                             `quantity` int(11) NOT NULL,
+                             `subtotal` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `order_items`
+--
+
+INSERT INTO `order_items` (`id`, `order_id`, `book_id`, `book_name`, `book_code`, `quantity`, `subtotal`) VALUES
+(82, 86, 86, 'Джерело', 828917, 2, '290.00'),
+(83, 84, 86, 'Джерело', 828917, 2, '290.00'),
+(84, 87, 86, 'Джерело', 828917, 2, '290.00'),
+(85, 85, 86, 'Джерело', 828917, 2, '290.00'),
+(86, 83, 86, 'Джерело', 828917, 2, '290.00'),
+(92, 93, 86, 'Джерело', 828917, 2, '290.00'),
+(93, 97, 86, 'Джерело', 828917, 2, '290.00'),
+(94, 96, 86, 'Джерело', 828917, 2, '290.00'),
+(95, 95, 86, 'Джерело', 828917, 2, '290.00'),
+(96, 94, 86, 'Джерело', 828917, 2, '290.00');
 
 -- --------------------------------------------------------
 
@@ -363,7 +418,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`) VALUES
 (1, 'Admin', 'admin@gmail.com', '$2a$10$4STkLmE.amux/j2iAogmlelqj1DjaPiHSiIvUeAqKTY2QZmVnbgY2', 'admin'),
-(2, 'Yra', 'yra@gmail.com', '$2a$10$L/JkuG8sjRwgcP.y9yWcW.aOmBWmt33Jnvq/cYfCL57WHgWigYHCm', 'user');
+(2, 'Yra', 'yra@gmail.com', '$2a$10$L/JkuG8sjRwgcP.y9yWcW.aOmBWmt33Jnvq/cYfCL57WHgWigYHCm', 'user'),
+(58, 'Gena', 'gena@gmail.com', '$2a$10$TYAJywrrACu1.6th.05JL.ntglnewOpgscev/Rk713PzTjYq7MUpG', 'user'),
+(59, 'Vita', 'vita@gmail.com', '$2a$10$.EtoeSG1AjTMh1JWQWfqFO6G.Rbxe9CMSPB5MHGMhSwhho3ERuDqC', 'user'),
+(60, 'Jora', 'jora@gmail.com', '$2a$10$L7lXjfIvSeRJSL39XhDMEOINSrYXxqT382ziP24TEd7UN1rsBZ/I2', 'user');
 
 --
 -- Индексы сохранённых таблиц
@@ -406,7 +464,15 @@ ALTER TABLE `m2m_books_genres`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `orders_order_number_uindex` (`order_number`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Индексы таблицы `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`);
 
 --
 -- Индексы таблицы `users`
@@ -429,7 +495,7 @@ ALTER TABLE `authors`
 -- AUTO_INCREMENT для таблицы `books`
 --
 ALTER TABLE `books`
-  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `b_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT для таблицы `genres`
@@ -441,19 +507,31 @@ ALTER TABLE `genres`
 -- AUTO_INCREMENT для таблицы `m2m_books_authors`
 --
 ALTER TABLE `m2m_books_authors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT для таблицы `m2m_books_genres`
 --
 ALTER TABLE `m2m_books_genres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+
+--
+-- AUTO_INCREMENT для таблицы `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+
+--
+-- AUTO_INCREMENT для таблицы `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
@@ -476,6 +554,12 @@ ALTER TABLE `m2m_books_genres`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ограничения внешнего ключа таблицы `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

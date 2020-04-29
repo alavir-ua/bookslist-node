@@ -1,8 +1,8 @@
 const User = require("../models/user.model.js");
+const Order = require("../models/order.model.js");
 const bcrypt = require('bcryptjs');
 
 exports.register = (req, res) => {
-
   if (Object.keys(req.body).length === 0) {
     let title = 'Регистрация';
     res.render('user/register', {title});
@@ -22,13 +22,13 @@ exports.register = (req, res) => {
             err.message || "Some error occurred while creating the User"
         });
 
-      User.findByEmail(data.email, (err, user) => {
+      User.findUserByEmail(data.email, (err, user) => {
         if (err) return res.status(500).send('Server error!');
         if (user) {
           req.session.user = {
             id: user.id,
             role: user.role,
-            name: user.name
+            email: user.email
           };
           res.end();
         }
@@ -45,7 +45,7 @@ exports.login = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  User.findByEmail(email, (err, user) => {
+  User.findUserByEmail(email, (err, user) => {
 
     if (!user) return res.render('user/login', {title, error: 'Пользователь с таким email не найден'});
 
@@ -56,7 +56,6 @@ exports.login = (req, res) => {
     req.session.user = {
       id: user.id,
       role: user.role,
-      name: user.name,
       email: user.email
     };
 
@@ -81,8 +80,33 @@ exports.logout = (req, res) => {
 };
 
 exports.cabinet = (req, res) => {
-  let title = 'Кабинет';
-  res.render('cabinet/index', {title});
+  User.findUserById(req.session.user.id, (err, user) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found user with id ${req.params.userId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving user with id " + req.params.userId
+        });
+      }
+    }
+    let title = 'Кабинет';
+    res.render('cabinet/index', {title, user});
+  });
+};
+
+exports.orders_index = (req, res) => {
+  Order.getOrdersByUseId(req.params.userId, (err, orders) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving orders for user"
+      });
+    let title = 'Просмотр заказов';
+    res.render('cabinet/user_order/index', {title, orders});
+  });
 };
 
 

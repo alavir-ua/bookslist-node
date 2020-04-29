@@ -64,6 +64,29 @@ Order.getOrderById = (orderId, result) => {
   });
 }
 
+Order.getOrdersByUseId = (userId, result) => {
+  sql.query(`SELECT id,
+                    order_number,
+                    grand_total,
+                    item_count,
+                    view_status,
+                    status,
+                    created_at
+             FROM orders
+      WHERE view_status = 1
+        AND
+      user_id=${userId}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      console.log(`Found ${res.length} orders of user with id=${userId}`);
+      result(null, res);
+    });
+}
+
 Order.getBooksByOrderId = (orderId, result) => {
   sql.query(`SELECT book_id AS id, book_name AS name, book_code AS code, quantity, subtotal
              FROM order_items

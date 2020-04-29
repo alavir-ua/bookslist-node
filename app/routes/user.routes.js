@@ -18,4 +18,11 @@ module.exports = app => {
 
   // Кабинет пользователя
   app.get("/user/cabinet", authUser, user.cabinet);
+
+  // Просмотр истории
+  app.get("/user/orders/:userId", authUser, user.orders_index);
+
+  // app.get("/user/order/view/:orderId", authUser, user.order_view);
+
+  // app.get("/user/order/delete/:orderId", authUser, user.order_delete);
 };

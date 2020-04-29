@@ -223,7 +223,6 @@ Book.getBookForCart = (bookId, result) => {
 
     if (res.length) {
       console.log(`Found book in database for cart with id=${bookId}`);
-      // result(null, Object.values(JSON.parse(JSON.stringify(res)))[0]);
       result(null, res[0]);
       return;
     }

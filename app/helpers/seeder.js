@@ -6,7 +6,7 @@ function getRandomInt(max) {
 }
 
 
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 5; i++) {
   let number = Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
   let payment_status = getRandomInt(2);
   let payment_method = '';
@@ -21,7 +21,8 @@ for (let i = 0; i < 20; i++) {
 
   const order = new Order({
     order_number: 'ORD-' + number,
-    user_id: 2,
+    view_status: 1,
+    user_id: 58,
     status: status,
     grand_total: faker.finance.amount(),
     item_count: getRandomInt(10),
@@ -34,10 +35,24 @@ for (let i = 0; i < 20; i++) {
     country: faker.address.country(),
     post_code: faker.address.zipCode(),
     phone_number: faker.phone.phoneNumberFormat(),
+    email: 'yra@gmail.com',
     notes: faker.lorem.text()
   });
+let booksInCart = [
+  {
+    item: {
+      id: 86,
+      code: 828917,
+      name: 'Джерело',
+      price: 145,
+      authors: 'В.Пелевин',
+      genres: 'классика'
+    },
+    quantity: 2,
+    price: 290
+  }]
 
-  Order.createOrder(order, (err, data) => {
+  Order.createOrder(order, booksInCart, (err, data) => {
     if (err){
       console.log(err)
     }

@@ -373,7 +373,7 @@ exports.author_update = (req, res) => {
 }
 
 // Управление заказами
-exports.order_index = (req, res) => {
+exports.orders_index = (req, res) => {
   Order.getCountOrders((err, totalOrders) => {
     if (err)
       res.status(500).send({

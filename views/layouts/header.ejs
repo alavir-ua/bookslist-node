@@ -70,7 +70,8 @@
                 <% if(typeof session.user === 'undefined') { %>
                   <li><a href="/user/login"><i class="fa fa-lock"></i> Вход</a></li>
                 <% } else if(session.user.role === 'user'){ %>
-                  <li><a href="/user/cabinet/"><i class="fa fa-user"></i> Аккаунт</a></li>
+                  <li><a href="/user/cabinet"><i class="fa fa-user"></i>
+                      Кабинет</a></li>
                   <li><a href="/user/logout"><i class="fa fa-unlock"></i> Выход</a></li>
                 <% } else if(session.user.role === 'admin'){ %>
                   <li><a href="/admin"><i class="fa fa-wrench"></i> Админпанель</a></li>

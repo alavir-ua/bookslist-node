@@ -22,7 +22,7 @@ User.create = (newUser, result) => {
   });
 };
 
-User.findByEmail = (email, result) => {
+User.findUserByEmail = (email, result) => {
   sql.query('SELECT * FROM users WHERE email = ?',email , (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -36,6 +36,23 @@ User.findByEmail = (email, result) => {
       return;
     }
 
+    // not found Customer with the id
+    result({kind: "not_found"}, null);
+  });
+};
+
+User.findUserById = (userId, result) => {
+  sql.query('SELECT id, name FROM users WHERE id = ?', userId , (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      console.log(`Found customer in database with id=${res[0].id}`);
+      result(null, res[0]);
+      return;
+    }
     // not found Customer with the id
     result({kind: "not_found"}, null);
   });

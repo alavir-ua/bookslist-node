@@ -27,7 +27,7 @@ module.exports = app => {
   app.all("/admin/author/update/:authorId", admin.author_update);
 
   // Управление заказами
-  app.get("/admin/orders", admin.order_index);
+  app.get("/admin/orders", admin.orders_index);
   app.get("/admin/order/view/:orderId", admin.order_view);
   app.get("/admin/order/delete/:orderId", admin.order_delete);
 

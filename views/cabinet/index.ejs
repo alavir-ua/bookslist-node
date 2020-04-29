@@ -3,15 +3,14 @@
 <section>
   <div class="container">
     <div class="row">
-
-      <h3>Кабинет пользователя</h3>
-
-      <h4>Привет, <%= session.user.name %>!</h4>
+      <br>
+      <h4>Добрый день, <%= user.name %>!</h4>
+      <p>Вам доступны такие возможности:</p>
+      <br>
       <ul>
-        <li><a href="/cabinet/edit">Редактировать данные</a></li>
-        <li><a href="/cabinet/history">Список покупок</a></li>
+        <li><a href="#">Редактировать данные</a></li>
+        <li><a href="/user/orders/<%= user.id %>">Просмотр заказов</a></li>
       </ul>
-
     </div>
   </div>
 </section>

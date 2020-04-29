@@ -28,7 +28,7 @@ module.exports = app => {
 
   // Управление заказами
   app.get("/admin/orders", admin.order_index);
-  // app.get("/admin/order/view/:orderId", admin.order_view);
+  app.get("/admin/order/view/:orderId", admin.order_view);
   // app.post("/admin/order/delete/:orderId", admin.order_delete);
 
 };

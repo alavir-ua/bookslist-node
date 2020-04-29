@@ -1,3 +1,4 @@
+const Cart = require("../models/cart.model");
 const sql = require("../helpers/db.js");
 
 // Конструктор
@@ -19,13 +20,25 @@ const Order = function (order) {
   this.notes = order.notes;
 };
 
-Order.createOrder = (newOrder, result) => {
+Order.createOrder = (newOrder, booksInCart, result) => {
   sql.query("INSERT INTO orders SET ?", newOrder, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
+    let orderId = res.insertId;
+    booksInCart.forEach(function (book) {
+      sql.query(`INSERT INTO order_items (order_id, book_id, book_name, book_code, quantity, subtotal) VALUE
+  (${orderId}, ${book.item.id}, \'${book.item.name}\', ${book.item.code}, ${book.quantity}, ${book.price})`, (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+        console.log(res);
+      });
+    })
     console.log("placed order: ", {id: res.insertId, ...newOrder});
     result(null, {id: res.insertId});
   });
@@ -47,7 +60,24 @@ Order.getOrderById = (orderId, result) => {
     }
     result({kind: "not_found"}, null);
   });
+}
 
+Order.getBooksByOrderId = (orderId, result) => {
+  sql.query(`SELECT book_id AS id, book_name AS name, book_code AS code, quantity, subtotal
+             FROM order_items
+  WHERE order_id=${orderId}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    if (res.length) {
+      console.log(`Found order items in database with id=${orderId}`);
+      result(null, res);
+      return;
+    }
+    result({kind: "not_found"}, null);
+  });
 }
 
 Order.updateOrderById = (orderId, options, result) => {
@@ -101,7 +131,6 @@ Order.getAdminOrdersLimit = (currentPage, pageSize, result) => {
       result(null, res);
     });
 };
-
 
 
 Order.deleteOrderById = (bookId, result) => {

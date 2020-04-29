@@ -4,8 +4,6 @@ const Book = require("../models/book.model");
 const Order = require("../models/order.model");
 const config = require("../config/site.config");
 const fs = require('fs');
-const moment = require('moment');
-moment.locale('uk');
 
 exports.index = (req, res) => {
   let title = 'Админпанель';
@@ -270,7 +268,7 @@ exports.genre_create = (req, res) => {
 exports.genre_update = (req, res) => {
   let title = 'Редактировать жанр';
   if (Object.keys(req.body).length === 0) {
-    Genre.getGenreById(req.params.genreId,(err, genre) => {
+    Genre.getGenreById(req.params.genreId, (err, genre) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
@@ -304,7 +302,7 @@ exports.genre_update = (req, res) => {
 
 // Управление авторами
 exports.authors_index = (req, res) => {
- Author.getAuthorsListAdmin((err, authorsList) => {
+  Author.getAuthorsListAdmin((err, authorsList) => {
     if (err)
       res.status(500).send({
         message:
@@ -342,7 +340,7 @@ exports.author_create = (req, res) => {
 exports.author_update = (req, res) => {
   let title = 'Редактировать автора';
   if (Object.keys(req.body).length === 0) {
-    Author.getAuthorById(req.params.authorId,(err, author) => {
+    Author.getAuthorById(req.params.authorId, (err, author) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
@@ -401,13 +399,44 @@ exports.order_index = (req, res) => {
       let title = 'Управление заказами';
       res.render('admin/admin_order/index', {
         title,
-        moment,
         adminOrdersLimit,
         pageSize,
         totalOrders,
         pageCount,
         currentPage
       });
+    });
+  });
+}
+
+exports.order_view = (req, res) => {
+  Order.getOrderById(req.params.orderId, (err, order) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found book with id ${req.params.orderId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving book with id " + req.params.orderId
+        });
+      }
+    }
+    Order.getBooksByOrderId(req.params.orderId, (err, books) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found books with order id ${req.params.orderId}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving books with order id " + req.params.orderId
+          });
+        }
+      }
+      order.books = books;
+      let title = 'Обзор заказа';
+      res.render('admin/admin_order/view', {title, order});
     });
   });
 }

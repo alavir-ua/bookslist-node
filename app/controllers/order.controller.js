@@ -27,12 +27,18 @@ exports.place = (req, res) => {
     });
   } else {
     let number = Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
+    let cart = new Cart(req.session.cart);
+    let booksInCart = cart.getItems();
+    let totalPrice = cart.totalPrice;
+    let totalItems = cart.totalItems;
+
     const order = new Order({
       order_number: 'ORD-' + number,
       user_id: req.session.user.id,
       status: 'pending',
-      grand_total: req.session.cart.totalPrice,
-      item_count: req.session.cart.totalItems,
+      grand_total: totalPrice,
+      item_count: totalItems,
+      order_items: booksInCart,
       payment_status: 0,
       payment_method: null,
       first_name: req.body.first_name,
@@ -45,7 +51,7 @@ exports.place = (req, res) => {
       notes: req.body.notes,
     })
 
-    Order.createOrder(order, (err, result) => {
+    Order.createOrder(order, booksInCart, (err, result) => {
       if (err)
         res.status(500).send({
           message:
@@ -125,7 +131,7 @@ exports.charge = (req, res) => {
         let chargeObject = {};
         const token = req.body.stripeToken;
         chargeObject.amount = order.grand_total * 100;
-        chargeObject.currency = "uah";
+        chargeObject.currency = "usd";
         chargeObject.source = token;
         chargeObject.description = `Payment order #${order.order_number} from ${order.first_name} ${order.last_name}`;
         let title = 'Результат платежа';

@@ -34,6 +34,7 @@ module.exports = function (app, express) {
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(function (req, res, next) {
     res.locals.session = req.session;
+    res.locals.url   = req.originalUrl;
     next();
   });
   app.locals.moment = moment;

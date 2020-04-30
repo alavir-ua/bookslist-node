@@ -4,36 +4,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-3">
-        <div class="left-sidebar">
-          <h2>Жанры</h2>
-          <div class="panel-group category-products">
-            <% genresList.forEach(function(genre) { %>
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a href="/catalog/genre/<%= genre.id %>">
-                      <%= genre.name %>
-                    </a>
-                  </h4>
-                </div>
-              </div>
-            <% }); %>
-          </div>
-          <h2>Авторы</h2>
-          <div class="panel-group category-products">
-            <% authorsList.forEach(function(author) { %>
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
-                    <a href="/catalog/author/<%= author.id %>">
-                      <%= author.name %>
-                    </a>
-                  </h4>
-                </div>
-              </div>
-            <% }); %>
-          </div>
-        </div>
+        <%- include ('../layouts/left_sidebar.ejs') %>
       </div>
 
       <div class="col-sm-9 padding-right">

@@ -61,6 +61,9 @@ exports.place = (req, res) => {
           message:
             err.message || "Some error occurred while creating the Order"
         });
+      let cart = new Cart(req.session.cart);
+      cart.clear();
+      req.session.cart = cart;
       res.redirect(`/order/${result.id}/card`);
     });
   }
@@ -158,9 +161,6 @@ exports.charge = (req, res) => {
                 // console.log(result)
               });
             }
-            let cart = new Cart(req.session.cart);
-            cart.clear();
-            req.session.cart = cart;
             let message = 'Платеж успешно завершен. ID транзакции ' + charge.balance_transaction;
             res.render('order/card', {title, message, authorsList, genresList});
 

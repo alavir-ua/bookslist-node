@@ -73,9 +73,8 @@ Order.getOrdersByUseId = (userId, result) => {
                     status,
                     created_at
              FROM orders
-      WHERE view_status = 1
-        AND
-      user_id=${userId}`,
+      WHERE view_status = 1 AND user_id=${userId}
+      ORDER BY id DESC`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);

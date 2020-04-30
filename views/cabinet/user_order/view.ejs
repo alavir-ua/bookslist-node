@@ -1,0 +1,46 @@
+<%- include ('../../layouts/header.ejs') %>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="breadcrumbs">
+        <ol class="breadcrumb">
+          <li><a href="/cabinet">Кабинет</a></li>
+          <li><a href="/cabinet/orders/<%= session.user.id %>">Просмотр заказов</a></li>
+          <li class="active">Обзор заказа</li>
+        </ol>
+      </div>
+      <h4>Список книг заказа #<span style="color: red; font-style: italic"><%= order.order_number %></span> от <%= moment(order
+          .created_at)
+          .format('LLL')
+        %></h4>
+      <br>
+      <table class="table-bordered table-striped table">
+        <thead>
+        <tr>
+          <th>Книга</th>
+          <th>Код</th>
+          <th>Количество</th>
+          <th>Промежуточный итог</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% order.books.forEach(function(book) { %>
+          <tr>
+            <td>
+              <a href="/view/<%= book.id %>">
+                <%= book.name %>
+              </a>
+            <td><%= book.code %></td>
+            <td><%= book.quantity %></td>
+            <td><%= book.subtotal %></td>
+          </tr>
+        <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+
+<%- include ('../../layouts/footer.ejs') %>

@@ -77,7 +77,7 @@ $(function () {
       },
       success: function () {
         console.log('Register successful');
-        window.location.href = '/user/cabinet';
+        window.location.href = '/cabinet';
       },
       error: function (data) {
         $('#error-group').css('display', 'block');

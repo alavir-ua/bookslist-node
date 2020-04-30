@@ -67,7 +67,7 @@ exports.login = (req, res) => {
       delete req.session.redirectTo;
       res.redirect(redirectTo);
     } else {
-      res.redirect('/user/cabinet');
+      res.redirect('/cabinet');
     }
   });
 };
@@ -109,5 +109,36 @@ exports.orders_index = (req, res) => {
   });
 };
 
-
+exports.order_view = (req, res) => {
+  Order.getOrderById(req.params.orderId, (err, order) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found order with id ${req.params.orderId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving order with id " + req.params.orderId
+        });
+      }
+    }
+    Order.getBooksByOrderId(req.params.orderId, (err, books) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found books with order id ${req.params.orderId}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving books with order id " + req.params.orderId
+          });
+        }
+      }
+      console.log(books)
+      order.books = books;
+      let title = 'Обзор заказа';
+      res.render('cabinet/user_order/view', {title, order});
+    });
+  });
+}
 

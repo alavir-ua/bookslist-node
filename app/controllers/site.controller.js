@@ -131,3 +131,9 @@ exports.download = (req, res) => {
   let fileName = `${req.params.bookName}.jpg`;
   res.download(filePath, fileName);
 };
+
+// page 404
+exports.not_found = (req, res) => {
+  let title = 404;
+  res.render('site/404', {title});
+};

@@ -97,11 +97,16 @@ exports.card = (req, res) => {
           }
         }
         let title = 'Оплата картой';
-        if (order.payment_status !== 1 && order.payment_method === null && order.status !== 'completed') {
-          return res.render('order/card', {title, orderId, genresList, authorsList});
+        if (order.user_id === req.session.user.id) {
+          if (order.payment_status !== 1 && order.payment_method === null && order.status !== 'completed') {
+            return res.render('order/card', {title, orderId, genresList, authorsList});
+          }
+          let message = `Заказ #${order.order_number} уже оплачен`;
+          return res.render('order/card', {title, message, genresList, authorsList});
+        } else {
+          let message = `У Вас нет прав оплаты заказа #${order.order_number}`;
+          return res.render('order/card', {title, message, genresList, authorsList});
         }
-        let message = `Заказ #${order.order_number} уже оплачен`;
-        return res.render('order/card', {title, message, genresList, authorsList});
       });
     });
   });

@@ -4,7 +4,7 @@
     <div class="row">
       <div class="breadcrumbs">
         <ol class="breadcrumb">
-          <li><a href="/user/cabinet">Кабинет</a></li>
+          <li><a href="/cabinet">Кабинет</a></li>
           <li class="active">Просмотр заказов</li>
         </ol>
       </div>
@@ -29,18 +29,19 @@
               <td><%= order.item_count %></td>
               <td>
                 <% if(order.status === 'completed') { %>
-                  <b><span style="color: green;">Завершен</span></b>
+                  <span style="color: green;">Завершен</span>
                 <% } else { %>
-                  <b><span style="color: red;">Не завершен</span></b> (<a href="/order/<%= order.id
-                  %>/card">Оплатить</a>)
+                  <span style="color: red;">Не завершен</span> (<a href="/order/<%= order.id
+                  %>/card"><i
+                      class="fa fa-credit-card"></i></a>)
                 <% } %>
               </td>
 
               <td><a href="/cabinet/order/view/<%= order.id %>" title="Посмотреть"><i
-                    class="fa fa-eye"></i></a></td>
-              <td><a href="/cabinet/order/delete/<%= order.id %>"
-                     title="Удалить"><i class="fa
-                        fa-times"></i></a></td>
+                    class="fa fa-folder-open-o"></i></a></td>
+              <td><a id="hideOrder" data-id="<%= order.order_number %>" href="/cabinet/order/hide/<%= order.id %>"
+                     title="Скрыть"><i class="fa
+                        fa-eye-slash"></i></a></td>
             </tr>
           <% }); %>
         </table>

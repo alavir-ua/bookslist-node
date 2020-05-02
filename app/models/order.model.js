@@ -172,4 +172,24 @@ Order.deleteOrderById = (orderId, result) => {
   });
 };
 
+Order.hideOrderById = (orderId, result) => {
+  sql.query(`UPDATE orders
+             SET view_status = 0
+      WHERE id = ${orderId}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows === 0) {
+        result({kind: "not_found"}, null);
+        return;
+      }
+      console.log(`Hidden order with id=${orderId} for user`);
+      result(null, res);
+    }
+  );
+};
+
 module.exports = Order;

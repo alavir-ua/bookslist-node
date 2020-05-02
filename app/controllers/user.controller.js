@@ -28,6 +28,7 @@ exports.register = (req, res) => {
           req.session.user = {
             id: user.id,
             role: user.role,
+            name: user.name,
             email: user.email
           };
           res.end();
@@ -56,6 +57,7 @@ exports.login = (req, res) => {
     req.session.user = {
       id: user.id,
       role: user.role,
+      name: user.name,
       email: user.email
     };
 
@@ -139,6 +141,18 @@ exports.order_view = (req, res) => {
       let title = 'Обзор заказа';
       res.render('cabinet/user_order/view', {title, order});
     });
+  });
+}
+
+exports.order_hide = (req, res) => {
+  Order.hideOrderById(req.params.orderId, (err, result) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while hided order"
+      });
+    console.log(result);
+    res.redirect('/cabinet/orders/' + req.session.user.id);
   });
 }
 

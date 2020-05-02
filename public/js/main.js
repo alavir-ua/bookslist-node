@@ -78,4 +78,14 @@ $(document).ready(function () {
     }
   });
 
+  $(document).on('click', '#hideOrder', function () {
+    let number = $(this).attr("data-id");
+    let conf = confirm(`Вы действительно хотите скрыть заказ #${number}?`);
+    if(conf){
+      return conf;
+    } else {
+      return conf;
+    }
+  });
+
 });

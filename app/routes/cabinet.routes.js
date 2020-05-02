@@ -15,5 +15,5 @@ module.exports = app => {
 
   app.get("/cabinet/order/view/:orderId", user.order_view);
 
-  // app.get("/cabinet/order/delete/:orderId",  user.order_delete);
+  app.get("/cabinet/order/hide/:orderId",  user.order_hide);
 };

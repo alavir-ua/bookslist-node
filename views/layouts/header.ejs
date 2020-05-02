@@ -67,14 +67,21 @@
                   </li>
                 <% } %>
                 <% if(typeof session.user === 'undefined') { %>
-                  <li><a href="/user/login"><i class="fa fa-lock"></i> Вход</a></li>
+                  <li><a href="/user/login"><i class="fa fa-lock"></i> Вход
+                    </a></li>
                 <% } else if(session.user.role === 'user'){ %>
 
-                  <% if(url !== '/cabinet' && url !== '/cabinet/orders/' + session.user.id) { %>
+                  <% if(typeof cabinet === 'undefined') { %>
                     <li><a href="/cabinet"><i class="fa fa-user"></i>
                         Кабинет</a></li>
                   <% } %>
-                  <li><a href="/user/logout"><i class="fa fa-unlock"></i> Выход</a></li>
+
+
+                  <li><a href="/user/logout"><i class="fa fa-unlock"></i> Выход
+                      <%if(typeof session.user !== 'undefined'){ %>
+                        (<%= session.user.name %>)
+                      <% } %>
+                    </a></li>
                 <% } else if(session.user.role === 'admin'){ %>
                   <li><a href="/admin"><i class="fa fa-wrench"></i> Админпанель</a></li>
                 <% } %>

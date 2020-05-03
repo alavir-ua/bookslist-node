@@ -6,7 +6,7 @@ function getRandomInt(max) {
 }
 
 
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 7; i++) {
   let number = Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000;
   let payment_status = getRandomInt(2);
   let payment_method = '';
@@ -22,10 +22,10 @@ for (let i = 0; i < 5; i++) {
   const order = new Order({
     order_number: 'ORD-' + number,
     view_status: 1,
-    user_id: 58,
+    user_id: 3,
     status: status,
     grand_total: faker.finance.amount(),
-    item_count: getRandomInt(10),
+    item_count: /*getRandomInt(10)*/3,
     payment_status: payment_status,
     payment_method: payment_method,
     first_name: faker.name.firstName(),
@@ -35,7 +35,7 @@ for (let i = 0; i < 5; i++) {
     country: faker.address.country(),
     post_code: faker.address.zipCode(),
     phone_number: faker.phone.phoneNumberFormat(),
-    email: 'yra@gmail.com',
+    email: faker.internet.email(),
     notes: faker.lorem.text()
   });
 let booksInCart = [
@@ -50,7 +50,32 @@ let booksInCart = [
     },
     quantity: 2,
     price: 290
-  }]
+  },
+  {
+    item: {
+      id: 89,
+      code: 251284,
+      name: 'Обіцянка собаки ',
+      price: 95.7,
+      authors: 'М.Твен',
+      genres: 'история'
+    },
+    quantity: 2,
+    price: 191.4
+  },
+  {
+    item: {
+      id: 90,
+      code: 721365,
+      name: 'На запах м`яса ',
+      price: 100.7,
+      authors: 'С.Джио',
+      genres: 'история'
+    },
+    quantity: 1,
+    price: 100.7
+  }
+];
 
   Order.createOrder(order, booksInCart, (err, data) => {
     if (err){

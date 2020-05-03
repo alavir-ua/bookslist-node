@@ -1,0 +1,39 @@
+<%- include ('../../layouts/header.ejs') %>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="breadcrumbs">
+        <ol class="breadcrumb">
+          <li><a href="/cabinet">Кабинет</a></li>
+          <li class="active">Редактирование данных</li>
+        </ol>
+      </div>
+      <div class="col-sm-4 col-sm-offset-4 padding-right">
+        <div class="signup-form"><!--sign up form-->
+          <div id="error-group" class="alert-danger form-error">
+            <ul id="errors"></ul>
+          </div>
+          <br>
+          <form id="updateForm" method="post">
+            <p>Имя</p>
+            <input type="text" id="name" placeholder="" value="<%= user.name %>" disabled>
+            <p>Email</p>
+            <input type="email" id="email" placeholder="" value="<%= user.email %>">
+            <p>Пароль</p>
+            <input type="password" id="password" placeholder="" value="">
+            <a href="#" class="password-control">Показать пароль</a>
+            <br><br>
+            <p>Подтвердите пароль</p>
+            <input type="password" id="confirmPassword" placeholder="" value="">
+            <br><br>
+            <input type="submit" name="submit" class="btn btn-default checkout"
+                   value="Обновить"/>
+          </form>
+        </div>
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+</section>
+<%- include ('../../layouts/footer.ejs') %>

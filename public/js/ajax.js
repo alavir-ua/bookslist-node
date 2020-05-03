@@ -91,4 +91,32 @@ $(function () {
     });
   });
 
+  $(document).on('submit', '#updateForm', function (e) {
+    e.preventDefault();
+    let id = $(this).attr("data-id");
+    $.ajax({
+      type: 'POST',
+      url: '/cabinet/user/update',
+      data: {
+        email: $('#email').val(),
+        password: $('#password').val(),
+        confirmPassword: $('#confirmPassword').val()
+      },
+      success: function () {
+        console.log('User updated successful');
+        alert('Данные обновлены успешно!');
+        window.location.href = '/cabinet';
+      },
+      error: function (data) {
+        $('#error-group').css('display', 'block');
+        let errors = JSON.parse(data.responseText);
+        let errorsList = '';
+        for (let i = 0; i < errors.length; i++) {
+          errorsList += '<li>' + '*&nbsp' + errors[i].msg + '</li>';
+        }
+        $('#errors').html(errorsList);
+      }
+    });
+  });
+
 });

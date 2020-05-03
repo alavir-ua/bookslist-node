@@ -6,7 +6,7 @@ const site = require("../controllers/site.controller");
 const user = require("../controllers/user.controller");
 const authAdmin = require('../middlewares/admin-auth');
 const authUser = require('../middlewares/user-auth');
-const {userValidationRules, validate} = require('../middlewares/validator')
+const {userRegValidationRules, userUpdValidationRules, validate} = require('../middlewares/validator')
 
 module.exports = app => {
   // admin.routes
@@ -32,8 +32,11 @@ module.exports = app => {
     next();
   });
   app.get("/cabinet", user.cabinet);
-  app.get("/cabinet/orders/:userId", user.orders_index);
+  app.get("/cabinet/orders", user.orders_index);
   app.get("/cabinet/order/view/:orderId", user.order_view);
+  app.get("/cabinet/order/hide/:orderId", user.order_hide);
+  app.get("/cabinet/user/update", user.user_update);
+  app.post("/cabinet/user/update", userUpdValidationRules(), validate, user.user_update);
   // cart.routes
   app.get("/cart", cart.index);
   app.get("/cart/add/:bookId", cart.add);
@@ -49,7 +52,7 @@ module.exports = app => {
   app.post("/order/charge", authUser, order.charge);
   // user.routes
   app.get("/user/register", user.register);
-  app.post("/user/register", userValidationRules(), validate, user.register);
+  app.post("/user/register", userRegValidationRules(), validate, user.register);
   app.all("/user/login", user.login);
   app.all("/user/logout", user.logout);
   // site.routes

@@ -89,7 +89,6 @@ Book.deleteBookById = (bookId, result) => {
 };
 
 Book.updateBookById = (bookId, book, options, result) => {
-  console.log(book)
   sql.query(`UPDATE books
              SET b_code           = ?,
                  b_name           = ?,

@@ -1,11 +1,9 @@
 -- phpMyAdmin SQL Dump
 -- version 4.9.0.1
--- phpMyAdmin SQL Dump
--- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Апр 29 2020 г., 20:42
+-- Время создания: Май 03 2020 г., 23:18
 -- Версия сервера: 10.3.15-MariaDB
 -- Версия PHP: 7.3.6
 
@@ -31,9 +29,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `authors` (
-                         `a_id` int(11) NOT NULL,
-                         `a_name` varchar(255) NOT NULL,
-                         `a_status` int(11) DEFAULT 1
+  `a_id` int(11) NOT NULL,
+  `a_name` varchar(255) NOT NULL,
+  `a_status` int(11) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -60,15 +58,15 @@ INSERT INTO `authors` (`a_id`, `a_name`, `a_status`) VALUES
 --
 
 CREATE TABLE `books` (
-                       `b_id` int(11) NOT NULL,
-                       `b_code` int(11) NOT NULL,
-                       `b_name` varchar(255) NOT NULL,
-                       `b_image` varchar(225) DEFAULT NULL,
-                       `b_price` decimal(5,2) NOT NULL,
-                       `b_description` text NOT NULL,
-                       `b_is_new` int(11) NOT NULL DEFAULT 0,
-                       `b_is_recommended` int(11) NOT NULL DEFAULT 0,
-                       `b_status` int(11) NOT NULL
+  `b_id` int(11) NOT NULL,
+  `b_code` int(11) NOT NULL,
+  `b_name` varchar(255) NOT NULL,
+  `b_image` varchar(225) DEFAULT NULL,
+  `b_price` decimal(5,2) NOT NULL,
+  `b_description` text NOT NULL,
+  `b_is_new` int(11) NOT NULL DEFAULT 0,
+  `b_is_recommended` int(11) NOT NULL DEFAULT 0,
+  `b_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -136,9 +134,9 @@ INSERT INTO `books` (`b_id`, `b_code`, `b_name`, `b_image`, `b_price`, `b_descri
 --
 
 CREATE TABLE `genres` (
-                        `g_id` int(11) NOT NULL,
-                        `g_name` varchar(255) NOT NULL,
-                        `g_status` int(11) NOT NULL DEFAULT 1
+  `g_id` int(11) NOT NULL,
+  `g_name` varchar(255) NOT NULL,
+  `g_status` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -160,9 +158,9 @@ INSERT INTO `genres` (`g_id`, `g_name`, `g_status`) VALUES
 --
 
 CREATE TABLE `m2m_books_authors` (
-                                   `id` int(11) NOT NULL,
-                                   `a_id` int(11) NOT NULL,
-                                   `b_id` int(11) NOT NULL
+  `id` int(11) NOT NULL,
+  `a_id` int(11) NOT NULL,
+  `b_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -244,9 +242,9 @@ INSERT INTO `m2m_books_authors` (`id`, `a_id`, `b_id`) VALUES
 --
 
 CREATE TABLE `m2m_books_genres` (
-                                  `id` int(11) NOT NULL,
-                                  `g_id` int(11) NOT NULL,
-                                  `b_id` int(11) NOT NULL
+  `id` int(11) NOT NULL,
+  `g_id` int(11) NOT NULL,
+  `b_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -328,26 +326,26 @@ INSERT INTO `m2m_books_genres` (`id`, `g_id`, `b_id`) VALUES
 --
 
 CREATE TABLE `orders` (
-                        `id` int(11) NOT NULL,
-                        `order_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                        `view_status` int(1) NOT NULL DEFAULT 1,
-                        `user_id` int(11) NOT NULL,
-                        `status` enum('pending','processing','completed','decline') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-                        `grand_total` decimal(10,2) NOT NULL,
-                        `item_count` int(20) NOT NULL,
-                        `payment_status` int(1) NOT NULL DEFAULT 1,
-                        `payment_method` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                        `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                        `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                        `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
-                        `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                        `country` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                        `post_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                        `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                        `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                        `notes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-                        `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-                        `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `id` int(11) NOT NULL,
+  `order_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `view_status` int(1) NOT NULL DEFAULT 1,
+  `user_id` int(11) NOT NULL,
+  `status` enum('pending','processing','completed','decline') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `grand_total` decimal(10,2) NOT NULL,
+  `item_count` int(20) NOT NULL,
+  `payment_status` int(1) NOT NULL DEFAULT 1,
+  `payment_method` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `country` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `post_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notes` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -355,16 +353,20 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `order_number`, `view_status`, `user_id`, `status`, `grand_total`, `item_count`, `payment_status`, `payment_method`, `first_name`, `last_name`, `address`, `city`, `country`, `post_code`, `phone_number`, `email`, `notes`, `created_at`, `updated_at`) VALUES
-(83, 'ORD-82750679', 1, 2, 'completed', '388.21', 4, 1, 'Stripe-card_1GdKWBGugVswcy1pjEAIX7cN', 'Brent', 'Kuhlman', '46400 Gideon Walks', 'West Colbychester', 'Timor-Leste', '70869', '755-117-0379', 'yra@gmail.com', 'Qui fuga dicta laborum sit dolores blanditiis. Laudantium non veritatis. Non quia nobis error.', '2020-04-29 18:02:16', '2020-04-29 18:20:25'),
-(84, 'ORD-11887880', 1, 2, 'completed', '910.76', 1, 1, 'Stripe-card_8kf96DsroIy2rxj', 'Alyce', 'Littel', '32947 Katheryn Spurs', 'Elainamouth', 'Bermuda', '31300', '229-171-4047', 'yra@gmail.com', 'Molestiae architecto id vel ratione deserunt sit cum quae.', '2020-04-29 18:02:16', '2020-04-29 18:02:16'),
-(85, 'ORD-19464278', 1, 2, 'pending', '574.44', 5, 0, NULL, 'Stuart', 'Langworth', '93733 Hoppe Ford', 'South Angelica', 'Mexico', '72455', '764-255-0167', 'yra@gmail.com', 'magni', '2020-04-29 18:02:16', '2020-04-29 18:02:16'),
-(86, 'ORD-46888549', 1, 2, 'completed', '592.53', 7, 1, 'Stripe-card_MF1QP04XPF0Mi18', 'Genoveva', 'McKenzie', '19444 Jana Ridge', 'Legrosville', 'Bosnia and Herzegovina', '94192', '238-726-0939', 'yra@gmail.com', 'Omnis sed omnis. Praesentium eius voluptate aliquid in sed incidunt commodi blanditiis. Ea quis aut occaecati. Voluptatem officia ex officiis. Recusandae ex quia neque aspernatur non omnis.\n \rNemo sint molestiae molestiae totam eveniet. Quo impedit ipsam quas adipisci asperiores labore. Enim sunt reprehenderit ut est possimus pariatur aut nulla vitae. Omnis repellat vitae iusto asperiores dignissimos vel autem. Fugiat ipsam qui sit dolor perferendis voluptas adipisci in nobis. Voluptatibus explicabo omnis.\n \rMaxime eveniet perferendis vitae distinctio facere commodi a dolor at. Omnis rerum consequatur eligendi sit non sunt ut quod ratione. Ut voluptas rerum illo officia et autem. Impedit architecto amet sequi eveniet vel ea distinctio molestiae optio. Voluptate autem sit voluptas molestiae autem quo magnam totam.', '2020-04-29 18:02:16', '2020-04-29 18:02:16'),
-(87, 'ORD-95612128', 1, 2, 'pending', '357.65', 7, 0, NULL, 'Jude', 'Reilly', '283 Fay Circle', 'East Elisabethfurt', 'Venezuela', '32819', '141-786-8243', 'yra@gmail.com', 'Dolorem est neque ut.', '2020-04-29 18:02:16', '2020-04-29 18:02:16'),
-(93, 'ORD-50380940', 1, 58, 'pending', '514.09', 8, 0, NULL, 'Felix', 'Monahan', '566 Liana Fords', 'East Toney', 'British Indian Ocean Territory (Chagos Archipelago)', '31335', '158-956-4149', 'yra@gmail.com', 'Eligendi at iusto qui eos dolorum. Iste ut vero officia occaecati iure culpa sint praesentium in. Similique perspiciatis qui dicta pariatur. Laborum commodi beatae tempore odio molestiae atque in consectetur labore. Qui reiciendis architecto odit.', '2020-04-29 18:29:16', '2020-04-29 18:29:16'),
-(94, 'ORD-97139070', 1, 58, 'completed', '186.24', 2, 1, 'Stripe-card_2n24CB_ckTcXK_2', 'Alford', 'Nitzsche', '149 Lang Springs', 'New Carlotta', 'Mongolia', '17923', '046-918-0398', 'yra@gmail.com', 'Magnam unde omnis dolores officia expedita libero et omnis. Fugit similique asperiores. Iusto aspernatur voluptates est eos ratione consequuntur molestiae. Voluptatum temporibus est sapiente corrupti officia sed sint aut non. Omnis reprehenderit non perferendis.\n \rFacilis quos iste quis. Et nisi tempora. Incidunt praesentium voluptatem vero. Est aliquid earum. Dicta in ipsa soluta aspernatur non nihil libero vel est.\n \rDelectus ipsum molestiae sapiente doloremque rerum qui accusamus. Fugiat sunt a molestiae eligendi nihil aperiam a. Voluptatibus ipsa sed illo repellendus. Assumenda eos minus.', '2020-04-29 18:29:16', '2020-04-29 18:29:16'),
-(95, 'ORD-13217597', 1, 58, 'pending', '414.64', 7, 0, NULL, 'Katrine', 'Stoltenberg', '14738 Jerald Garden', 'North Amely', 'Saint Kitts and Nevis', '58067', '309-143-4837', 'yra@gmail.com', 'Eveniet consequatur tempore ipsum id.', '2020-04-29 18:29:16', '2020-04-29 18:29:16'),
-(96, 'ORD-15383307', 1, 58, 'pending', '974.14', 5, 0, NULL, 'Buster', 'Sanford', '072 Ila Haven', 'West Heloise', 'French Polynesia', '85224', '226-061-4303', 'yra@gmail.com', 'Sed quis qui aperiam in qui incidunt.\nEos ut ipsa dolorum et similique voluptatem qui expedita deleniti.', '2020-04-29 18:29:16', '2020-04-29 18:29:16'),
-(97, 'ORD-39342333', 1, 58, 'pending', '169.58', 7, 0, NULL, 'Jaquelin', 'Okuneva', '6177 Jaden Forest', 'New Fosterland', 'Seychelles', '21428', '643-749-0565', 'yra@gmail.com', 'Suscipit aliquid soluta sed facilis non nesciunt. Nihil voluptas ut labore quibusdam explicabo sit dolores. Itaque quam consectetur aut impedit sit sit. Qui maiores illo suscipit architecto molestiae et eius quia sint. Nesciunt magnam quibusdam.', '2020-04-29 18:29:16', '2020-04-29 18:29:16');
+(1, 'ORD-41150162', 1, 2, 'pending', '841.12', 3, 0, NULL, 'Юрий', 'Иванов', 'ул. Космонавтов 34 кв.6', 'Николаев', 'Украина', '54024', '+38(095) 456-36-89', 'ura@gmail.com', 'Отправить срочно!', '2020-05-03 21:07:07', '2020-05-03 21:07:07'),
+(2, 'ORD-72069809', 1, 2, 'pending', '68.46', 3, 0, NULL, 'Юрий', 'Иванов', 'ул. Космонавтов 34 кв.6', 'Николаев', 'Украина', '54024', '+38(095) 456-36-89', 'ura@gmail.com', 'Отправить срочно!', '2020-05-03 21:07:07', '2020-05-03 21:07:07'),
+(3, 'ORD-35751033', 1, 2, 'completed', '553.01', 3, 1, 'Stripe-card_ytEzIuJEsDTagae', 'Юрий', 'Иванов', 'ул. Космонавтов 34 кв.6', 'Николаев', 'Украина', '54024', '+38(095) 456-36-89', 'ura@gmail.com', 'Отправить срочно!', '2020-05-03 21:07:07', '2020-05-03 21:07:07'),
+(4, 'ORD-29527421', 1, 2, 'pending', '398.45', 3, 0, NULL, 'Юрий', 'Иванов', 'ул. Космонавтов 34 кв.6', 'Николаев', 'Украина', '54024', '+38(095) 456-36-89', 'ura@gmail.com', 'Отправить срочно!', '2020-05-03 21:07:07', '2020-05-03 21:07:07'),
+(5, 'ORD-86092479', 1, 2, 'completed', '138.01', 3, 1, 'Stripe-card_joNV15LAl3E2Klz', 'Юрий', 'Иванов', 'ул. Космонавтов 34 кв.6', 'Николаев', 'Украина', '54024', '+38(095) 456-36-89', 'ura@gmail.com', 'Отправить срочно!', '2020-05-03 21:07:07', '2020-05-03 21:07:07'),
+(6, 'ORD-70874954', 1, 2, 'completed', '783.32', 3, 1, 'Stripe-card_NDJCJxBY4TEuJmF', 'Юрий', 'Иванов', 'ул. Космонавтов 34 кв.6', 'Николаев', 'Украина', '54024', '+38(095) 456-36-89', 'ura@gmail.com', 'Отправить срочно!', '2020-05-03 21:07:07', '2020-05-03 21:07:07'),
+(7, 'ORD-36587774', 1, 2, 'completed', '997.92', 3, 1, 'Stripe-card_cgfFWvowG1oiwQS', 'Юрий', 'Иванов', 'ул. Космонавтов 34 кв.6', 'Николаев', 'Украина', '54024', '+38(095) 456-36-89', 'ura@gmail.com', 'Отправить срочно!', '2020-05-03 21:07:07', '2020-05-03 21:07:07'),
+(8, 'ORD-58283028', 1, 3, 'completed', '289.01', 3, 1, 'Stripe-card_y_rRR4KwWREWcJs', 'Геннадий', 'Ветров', 'ул. Киевская 93 кв.21', 'Запорожье', 'Украина', '68319', '+38(097) 493-26-49', 'gena@gmail.com', 'С новым годом!', '2020-05-03 21:09:39', '2020-05-03 21:14:15'),
+(9, 'ORD-45548682', 1, 3, 'completed', '444.26', 3, 1, 'Stripe-card_Y7wxeGhubGk2m8p', 'Геннадий', 'Ветров', 'ул. Киевская 93 кв.21', 'Запорожье', 'Украина', '68319', '+38(097) 493-26-49', 'gena@gmail.com', 'С новым годом!', '2020-05-03 21:09:39', '2020-05-03 21:14:15'),
+(10, 'ORD-78400922', 1, 3, 'completed', '735.04', 3, 1, 'Stripe-card_gcxwk0_HVnsKb76', 'Геннадий', 'Ветров', 'ул. Киевская 93 кв.21', 'Запорожье', 'Украина', '68319', '+38(097) 493-26-49', 'gena@gmail.com', 'С новым годом!', '2020-05-03 21:09:39', '2020-05-03 21:14:15'),
+(11, 'ORD-86490989', 1, 3, 'completed', '988.37', 3, 1, 'Stripe-card_lgBf6vXXrJzXXPp', 'Геннадий', 'Ветров', 'ул. Киевская 93 кв.21', 'Запорожье', 'Украина', '68319', '+38(097) 493-26-49', 'gena@gmail.com', 'С новым годом!', '2020-05-03 21:09:39', '2020-05-03 21:14:15'),
+(12, 'ORD-82312255', 1, 3, 'completed', '586.21', 3, 1, 'Stripe-card_CbprmlgkDGVJw_J', 'Геннадий', 'Ветров', 'ул. Киевская 93 кв.21', 'Запорожье', 'Украина', '68319', '+38(097) 493-26-49', 'gena@gmail.com', 'С новым годом!', '2020-05-03 21:09:39', '2020-05-03 21:14:15'),
+(13, 'ORD-42121042', 1, 3, 'completed', '71.53', 3, 1, 'Stripe-card_vz39K1EIe1QjJ09', 'Геннадий', 'Ветров', 'ул. Киевская 93 кв.21', 'Запорожье', 'Украина', '68319', '+38(097) 493-26-49', 'gena@gmail.com', 'С новым годом!', '2020-05-03 21:09:39', '2020-05-03 21:14:15'),
+(14, 'ORD-84724007', 1, 3, 'pending', '436.01', 3, 0, NULL, 'Геннадий', 'Ветров', 'ул. Киевская 93 кв.21', 'Запорожье', 'Украина', '68319', '+38(097) 493-26-49', 'gena@gmail.com', 'С новым годом!', '2020-05-03 21:09:39', '2020-05-03 21:14:16');
 
 -- --------------------------------------------------------
 
@@ -373,13 +375,13 @@ INSERT INTO `orders` (`id`, `order_number`, `view_status`, `user_id`, `status`, 
 --
 
 CREATE TABLE `order_items` (
-                             `id` int(11) NOT NULL,
-                             `order_id` int(11) NOT NULL,
-                             `book_id` int(11) NOT NULL,
-                             `book_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-                             `book_code` int(6) NOT NULL,
-                             `quantity` int(11) NOT NULL,
-                             `subtotal` decimal(10,2) NOT NULL
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `book_id` int(11) NOT NULL,
+  `book_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `book_code` int(6) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `subtotal` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -387,16 +389,48 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`id`, `order_id`, `book_id`, `book_name`, `book_code`, `quantity`, `subtotal`) VALUES
-(82, 86, 86, 'Джерело', 828917, 2, '290.00'),
-(83, 84, 86, 'Джерело', 828917, 2, '290.00'),
-(84, 87, 86, 'Джерело', 828917, 2, '290.00'),
-(85, 85, 86, 'Джерело', 828917, 2, '290.00'),
-(86, 83, 86, 'Джерело', 828917, 2, '290.00'),
-(92, 93, 86, 'Джерело', 828917, 2, '290.00'),
-(93, 97, 86, 'Джерело', 828917, 2, '290.00'),
-(94, 96, 86, 'Джерело', 828917, 2, '290.00'),
-(95, 95, 86, 'Джерело', 828917, 2, '290.00'),
-(96, 94, 86, 'Джерело', 828917, 2, '290.00');
+(1, 7, 86, 'Джерело', 828917, 2, '290.00'),
+(2, 7, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(3, 1, 86, 'Джерело', 828917, 2, '290.00'),
+(4, 6, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(5, 6, 86, 'Джерело', 828917, 2, '290.00'),
+(6, 6, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(7, 1, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(8, 1, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(9, 7, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(10, 5, 86, 'Джерело', 828917, 2, '290.00'),
+(11, 3, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(12, 5, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(13, 2, 86, 'Джерело', 828917, 2, '290.00'),
+(14, 3, 86, 'Джерело', 828917, 2, '290.00'),
+(15, 5, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(16, 3, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(17, 2, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(18, 4, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(19, 2, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(20, 4, 86, 'Джерело', 828917, 2, '290.00'),
+(21, 4, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(22, 8, 86, 'Джерело', 828917, 2, '290.00'),
+(23, 8, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(24, 8, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(25, 10, 86, 'Джерело', 828917, 2, '290.00'),
+(26, 10, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(27, 10, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(28, 11, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(29, 11, 86, 'Джерело', 828917, 2, '290.00'),
+(30, 11, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(31, 14, 86, 'Джерело', 828917, 2, '290.00'),
+(32, 13, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(33, 13, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(34, 12, 86, 'Джерело', 828917, 2, '290.00'),
+(35, 12, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(36, 14, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(37, 14, 90, 'На запах м`яса ', 721365, 1, '100.70'),
+(38, 13, 86, 'Джерело', 828917, 2, '290.00'),
+(39, 9, 86, 'Джерело', 828917, 2, '290.00'),
+(40, 9, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(41, 12, 89, 'Обіцянка собаки ', 251284, 2, '191.40'),
+(42, 9, 90, 'На запах м`яса ', 721365, 1, '100.70');
 
 -- --------------------------------------------------------
 
@@ -405,11 +439,11 @@ INSERT INTO `order_items` (`id`, `order_id`, `book_id`, `book_name`, `book_code`
 --
 
 CREATE TABLE `users` (
-                       `id` int(11) NOT NULL,
-                       `name` varchar(255) NOT NULL,
-                       `email` varchar(255) NOT NULL,
-                       `password` varchar(255) NOT NULL,
-                       `role` varchar(255) NOT NULL
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -417,11 +451,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`) VALUES
-(1, 'Admin', 'admin@gmail.com', '$2a$10$4STkLmE.amux/j2iAogmlelqj1DjaPiHSiIvUeAqKTY2QZmVnbgY2', 'admin'),
-(2, 'Yra', 'yra@gmail.com', '$2a$10$L/JkuG8sjRwgcP.y9yWcW.aOmBWmt33Jnvq/cYfCL57WHgWigYHCm', 'user'),
-(58, 'Gena', 'gena@gmail.com', '$2a$10$TYAJywrrACu1.6th.05JL.ntglnewOpgscev/Rk713PzTjYq7MUpG', 'user'),
-(59, 'Vita', 'vita@gmail.com', '$2a$10$.EtoeSG1AjTMh1JWQWfqFO6G.Rbxe9CMSPB5MHGMhSwhho3ERuDqC', 'user'),
-(60, 'Jora', 'jora@gmail.com', '$2a$10$L7lXjfIvSeRJSL39XhDMEOINSrYXxqT382ziP24TEd7UN1rsBZ/I2', 'user');
+(1, 'Oleksii', 'admin@gmail.com', '$2a$10$WRnhw/ilmYxamzDIx1TMTegHGIlDOe2v2xx9k3PCyEoFySayGsZbW', 'admin'),
+(2, 'Uriy', 'ura@gmail.com', '$2a$10$yCDcipht/c0qpW5qgCzQKOIFf77vQoyG.EMKnh1Xz8wPQ.37wbzgO', 'user'),
+(3, 'Gena', 'gena@gmail.com', '$2a$10$QbLq3CwnGVwmh7Dg6Q/dgON15H9XoUpKtdHlTNMG1200wunLmARau', 'user');
 
 --
 -- Индексы сохранённых таблиц
@@ -519,19 +551,19 @@ ALTER TABLE `m2m_books_genres`
 -- AUTO_INCREMENT для таблицы `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT для таблицы `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -23,7 +23,7 @@ User.create = (newUser, result) => {
 };
 
 User.findUserByEmail = (email, result) => {
-  sql.query('SELECT * FROM users WHERE email = ?',email , (err, res) => {
+  sql.query('SELECT * FROM users WHERE email = ?', email, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -42,7 +42,7 @@ User.findUserByEmail = (email, result) => {
 };
 
 User.findUserById = (userId, result) => {
-  sql.query('SELECT id, name FROM users WHERE id = ?', userId , (err, res) => {
+  sql.query('SELECT id, name, email FROM users WHERE id = ?', userId, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -56,6 +56,28 @@ User.findUserById = (userId, result) => {
     // not found Customer with the id
     result({kind: "not_found"}, null);
   });
+};
+
+User.updateUserById = (userId, options, result) => {
+  sql.query(`UPDATE users
+      SET email    = ?,
+          password = ?
+      WHERE id = ${userId}`,
+    [options.email, options.password],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows === 0) {
+        result({kind: "not_found"}, null);
+        return;
+      }
+      console.log(`Updated user with id=${userId}`);
+      result(null, res);
+    }
+  );
 };
 
 module.exports = User;

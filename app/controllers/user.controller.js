@@ -100,7 +100,7 @@ exports.cabinet = (req, res) => {
 };
 
 exports.orders_index = (req, res) => {
-  Order.getOrdersByUseId(req.params.userId, (err, orders) => {
+  Order.getOrdersByUseId(req.session.user.id, (err, orders) => {
     if (err)
       res.status(500).send({
         message:
@@ -112,7 +112,9 @@ exports.orders_index = (req, res) => {
 };
 
 exports.order_view = (req, res) => {
-  Order.getOrderById(req.params.orderId, (err, order) => {
+  // проверка принадлежности заказа пользователю
+
+  Order.checkBelongToUser(req.params.orderId, req.session.user.id, (err, result) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -124,35 +126,112 @@ exports.order_view = (req, res) => {
         });
       }
     }
-    Order.getBooksByOrderId(req.params.orderId, (err, books) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Not found books with order id ${req.params.orderId}.`
-          });
-        } else {
-          res.status(500).send({
-            message: "Error retrieving books with order id " + req.params.orderId
-          });
+    let title = 'Обзор заказа';
+    if (result !== null && result.user_id === req.session.user.id) {
+      Order.getOrderById(req.params.orderId, (err, order) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).send({
+              message: `Not found order with id ${req.params.orderId}.`
+            });
+          } else {
+            res.status(500).send({
+              message: "Error retrieving order with id " + req.params.orderId
+            });
+          }
         }
-      }
-      console.log(books)
-      order.books = books;
-      let title = 'Обзор заказа';
-      res.render('cabinet/user_order/view', {title, order});
-    });
+        Order.getBooksByOrderId(req.params.orderId, (err, books) => {
+          if (err) {
+            if (err.kind === "not_found") {
+              res.status(404).send({
+                message: `Not found books with order id ${req.params.orderId}.`
+              });
+            } else {
+              res.status(500).send({
+                message: "Error retrieving books with order id " + req.params.orderId
+              });
+            }
+          }
+          order.books = books;
+          res.render('cabinet/user_order/view', {title, order});
+        });
+      });
+    } else {
+      let message = 'У Вас нет прав просмотра этого заказа';
+      res.render('cabinet/user_order/view', {title, message});
+    }
   });
 }
 
 exports.order_hide = (req, res) => {
-  Order.hideOrderById(req.params.orderId, (err, result) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while hided order"
+  Order.checkBelongToUser(req.params.orderId, req.session.user.id, (err, result) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found order with id ${req.params.orderId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving order with id " + req.params.orderId
+        });
+      }
+    }
+    let title = 'Обзор заказа';
+    if (result !== null && result.user_id === req.session.user.id) {
+      Order.hideOrderById(req.params.orderId, (err, result) => {
+        if (err)
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while hided order"
+          });
+        console.log(result);
+        res.redirect('/cabinet/orders');
       });
-    console.log(result);
-    res.redirect('/cabinet/orders/' + req.session.user.id);
+    } else {
+      let message = 'У Вас нет прав управлять этим заказом';
+      res.render('cabinet/user_order/view', {title, message});
+    }
   });
 }
 
+exports.user_update = (req, res) => {
+  let title = 'Редактирование данных';
+  if (Object.keys(req.body).length === 0) {
+    User.findUserById(req.session.user.id, (err, user) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found user with id ${req.params.userId}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving user with id " + req.params.userId
+          });
+        }
+      }
+      res.render('cabinet/user/user_update', {title, user});
+    });
+  } else {
+
+    const options = {
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password),
+    }
+
+    User.updateUserById(req.session.user.id, options, (err, result) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while updating the User"
+        });
+      console.log(result);
+      User.findUserByEmail(req.body.email, (err, user) => {
+        if (err) return res.status(500).send('Server error!');
+        if (user) {
+          req.session.user.email = user.email;
+          res.send();
+        }
+      });
+    });
+  }
+}

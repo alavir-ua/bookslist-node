@@ -1,3 +1,4 @@
+const helmet = require('helmet');
 const bodyParser = require("body-parser");
 const multer = require('multer');
 const cookieParser = require('cookie-parser');
@@ -15,16 +16,17 @@ module.exports = function (app, express) {
     secret: '3fg45ytg56Fg54fd',
     resave: false,
     saveUninitialized: false,
-    maxAge: 1800000, //30 min
+    maxAge: 600000, //10 min
     store: new MongoStore({
       url: `mongodb+srv://${config.USER}:${config.PASSWORD}@cluster0-ojveh.mongodb.net/test?retryWrites=true&w=majority`,
       dbName: 'bookslist',
-      ttl: 1800,// 30 min
+      ttl: 600,// 10 min
       secret: '5Rt67Vcs79jjh',
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
   }));
+  app.use(helmet());
   app.use(cookieParser());
   app.set('views', process.cwd() +'/views');
   app.set('view engine', 'ejs');

@@ -2,7 +2,6 @@ const Author = require("../models/author.model");
 const Genre = require("../models/genre.model");
 const Book = require("../models/book.model");
 const nodemailer = require("nodemailer");
-const config = require("../config/smtp.config");
 
 
 //Главная страница
@@ -61,18 +60,18 @@ exports.mail = (req, res) => {
   const text = req.body.text;
 
   let transporter = nodemailer.createTransport({
-    host: config.HOST,
-    port: config.PORT,
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
     secure: false,
     auth: {
-      user: config.SMTP_NAME,
-      pass: config.PASSWORD
+      user: process.env.SMTP_NAME,
+      pass: process.env.SMTP_PASSWORD
     }
   });
 
   const data = {
-    from: config.SMTP_NAME,
-    to: config.ADMIN_MAIL,
+    from: process.env.SMTP_NAME,
+    to: process.env.ADMIN_MAIL,
     subject: `Письмо от пользователя ${email}`,
     html: `<p>${text}</p>`
   }

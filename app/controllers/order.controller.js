@@ -2,9 +2,7 @@ const Genre = require("../models/genre.model");
 const Author = require("../models/author.model");
 const Order = require("../models/order.model");
 const Cart = require("../models/cart.model");
-const User = require("../models/user.model");
-const stripeConfig = require("../config/stripe.config.js");
-const sk = stripeConfig.SECRET_KEY;
+const sk = process.env.STRIPE_SECRET_KEY;
 const stripe = require('stripe')(sk);
 
 exports.place = (req, res) => {
@@ -142,7 +140,7 @@ exports.charge = (req, res) => {
         }
         let chargeObject = {};
         const token = req.body.stripeToken;
-        chargeObject.amount = order.grand_total * 100;
+        chargeObject.amount = Math.trunc(order.grand_total * 100);
         chargeObject.currency = "usd";
         chargeObject.source = token;
         chargeObject.description = `Payment order #${order.order_number} from ${order.first_name} ${order.last_name}`;

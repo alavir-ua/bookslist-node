@@ -1,12 +1,10 @@
 const helmet = require('helmet');
+var compression = require('compression');
 const bodyParser = require("body-parser");
 const multer = require('multer');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const dbConfig = require('../config/db.config');
-const config = dbConfig.mongo;
-const process = require('process');
 const path = require('path');
 const moment = require('moment');
 moment.locale('ru');
@@ -18,7 +16,7 @@ module.exports = function (app, express) {
     saveUninitialized: false,
     maxAge: 600000, //10 min
     store: new MongoStore({
-      url: `mongodb+srv://${config.USER}:${config.PASSWORD}@cluster0-ojveh.mongodb.net/test?retryWrites=true&w=majority`,
+      url: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-ojveh.mongodb.net/test?retryWrites=true&w=majority`,
       dbName: 'bookslist',
       ttl: 600,// 10 min
       secret: '5Rt67Vcs79jjh',
@@ -27,6 +25,7 @@ module.exports = function (app, express) {
     })
   }));
   app.use(helmet());
+  app.use(compression());
   app.use(cookieParser());
   app.set('views', process.cwd() +'/views');
   app.set('view engine', 'ejs');

@@ -1,10 +1,13 @@
-const express = require("express");
 const process = require('process');
-const PORT = process.env.PORT || 3000;
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
+const express = require('express');
+const PORT = process.env.PORT;
 const app = express();
 
 require('./app/middlewares/main')(app, express);
-
 require("./app/routes/routes.js")(app);
 
 app.listen(PORT, () => {

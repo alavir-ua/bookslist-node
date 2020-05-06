@@ -2,7 +2,6 @@ const Author = require("../models/author.model");
 const Genre = require("../models/genre.model");
 const Book = require("../models/book.model");
 const Order = require("../models/order.model");
-const config = require("../config/site.config");
 const fs = require('fs');
 
 exports.index = (req, res) => {
@@ -19,7 +18,7 @@ exports.book_index = (req, res) => {
           err.message || "Some error occurred while retrieving books count"
       });
 
-    let pageSize = config.SHOW_FOR_ADMIN,
+    let pageSize = process.env.SHOW_FOR_ADMIN,
       pageCount = Math.ceil(totalBooks / pageSize),
       currentPage = 1;
 

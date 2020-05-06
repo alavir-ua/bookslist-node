@@ -380,7 +380,7 @@ exports.orders_index = (req, res) => {
           err.message || "Some error occurred while retrieving orders count"
       });
 
-    let pageSize = config.SHOW_FOR_ADMIN,
+    let pageSize = process.env.SHOW_FOR_ADMIN,
       pageCount = Math.ceil(totalOrders / pageSize),
       currentPage = 1;
 

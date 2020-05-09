@@ -41,6 +41,6 @@ Using the books-list.sql file in the root directory of your project, restore the
 ```
 $ node server.js
 ```
-After that, open the browser at http://localhost: 3000/ to view the result.
+After that, open the browser at http://localhost:3000/ to view the result.
 ## Links
 [Live Demo](https://bookslist-node.herokuapp.com/)

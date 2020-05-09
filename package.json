@@ -1,9 +1,6 @@
 {
 	"name": "bookslist-js",
 	"version": "1.0.0",
-	"engines": {
-		"node": "12.9.x"
-	},
 	"description": "Node.js Restful CRUD API bookstore with Node.js, Express and MySQL",
 	"main": "server.js",
 	"scripts": {
